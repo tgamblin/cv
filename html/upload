@@ -1,0 +1,4 @@
+#!/bin/sh
+
+scp ../todd-cv.pdf todd-cv.html todd-cv*.png swan.cs.unc.edu:www/cv
+

@@ -1,0 +1,171 @@
+%!TEX TS-program = multibib 
+\documentclass[10pt,letterpaper]{moderncv}
+
+%----------------------------------------------------------------------------------
+% Use these to set subsection spacing.  These are reset before
+% the Bibliography for sections for different types of pubs.
+%----------------------------------------------------------------------------------
+\newlength{\presubspace}
+\newlength{\postsubspace} 
+
+\setlength{\presubspace}{-.7em}
+\setlength{\postsubspace}{-.2em}
+
+\renewcommand{\subsectionstyle}[1]{
+	\vspace{\presubspace}
+	\large\color{sectiontitlecolor}{\em ---~#1~---}
+	\vspace{\postsubspace}
+}
+
+% reduce spacing bt/w sections.
+\let\oldsection\section
+\renewcommand{\section}[1]{
+	\vspace{-.085in}
+	\oldsection{#1}
+}
+\let\oldsubsection\subsection
+\renewcommand{\subsection}[1]{
+	\oldsubsection{#1}
+}
+
+
+%----------------------------------------------------------------------------------
+% Hyperref and url are included by moderncv.  Set up custom
+% link colors here.
+%----------------------------------------------------------------------------------
+\definecolor{mylinkcolor}{rgb}{0.15,0.3,0.48}
+\hypersetup{
+    colorlinks=true,%
+    citecolor=black,%
+    filecolor=black,%
+    linkcolor=mylinkcolor,%
+    urlcolor=mylinkcolor,%
+    pdfborder=0 0 0%
+}
+\urlstyle{sf}    % Make URLs match rest of text.
+
+% moderncv themes
+\moderncvtheme[blue]{casual}                 % optional argument are 'blue' (default), 'orange', 'red', 'green', 'grey' and 'roman' (for roman fonts, instead of sans serif fonts)
+%\moderncvtheme[green]{classic}                % idem
+
+% character encoding
+\usepackage[utf8]{inputenc}   % replace by the encoding you are using
+
+% adjust the page margins
+\usepackage[scale=0.8]{geometry}
+%\setlength{\hintscolumnwidth}{3cm}						% if you want to change the width of the column with the dates
+%\AtBeginDocument{\setlength{\maketitlenamewidth}{6cm}}  % only for the classic theme, if you want to change the width of your name placeholder (to leave more space for your address details
+\AtBeginDocument{\recomputelengths}                     % required when changes are made to page layout lengths
+
+
+% personal data 
+\firstname{Todd}
+\familyname{Gamblin}
+%\title{Resumé title (optional)}               % optional, remove the line if not wanted
+\address{P.O. Box 808, L-557}{Livermore, CA, 94551}    % optional, remove the line if not wanted
+\phone{919.360.8283}                    % optional, remove the line if not wanted
+%\phone{925-422-9319}                      % optional, remove the line if not wanted
+%\fax{fax (optional)}                          % optional, remove the line if not wanted
+\email{tgamblin@gmail.com}                      % optional, remove the line if not wanted
+\extrainfo{\href{http://www.cs.unc.edu/~tgamblin}{\url{http://www.cs.unc.edu/~tgamblin}}} % optional, remove the line if not wanted
+%\photo[64pt]{picture}                         % '64pt' is the height the picture must be resized to and 'picture' is the name of the picture file; optional, remove the line if not wanted
+%\quote{Some quote (optional)}                 % optional, remove the line if not wanted
+
+\nopagenumbers{}      % suppress automatic page numbering for CVs longer than one page
+
+% command and color used in this document, independently from moderncv 
+\definecolor{see}{rgb}{0.5,0.5,0.5}% for web links
+\newcommand{\up}[1]{\ensuremath{^\textsf{\scriptsize#1}}}% for text subscripts
+
+% Put labels next to publications
+\renewcommand{\bibliographyitemlabel}{
+	\ifthenelse	{\value{enumiv}=17}
+	 			{\color{sectiontitlecolor}\textbf{Best Poster} \color{black}}{}%
+   {\ifthenelse	{\value{enumiv}=27}
+	 			{\color{sectiontitlecolor}\textbf{Best Poster} \color{black}}{}%
+	{[}{\arabic{enumiv}}{]}}%
+}
+
+% Multiple Bibliographies
+\usepackage{multibib}
+\newcites{Paper,Workshop,Book,PhD,Poster}{Papers,Workshops and Technical Reports,Book Chapters,Ph.D. Dissertation,Posters \& Presentations}
+
+
+%----------------------------------------------------------------------------------
+%            Top
+%----------------------------------------------------------------------------------
+\begin{document}
+\maketitle
+
+\vspace{-3em}    % Omit if quote is included
+
+\input{education}
+
+\input{awards}
+
+\input{research-experience}
+
+\newpage
+
+\input{professional-experience}
+
+\input{teaching}
+
+\input{professional-activities}
+
+\input{university-activities}
+
+\input{skills}
+
+\input{software}
+
+%----------------------------------------------------------------------------------
+%            Publications
+%----------------------------------------------------------------------------------
+\section{Publications}
+	% Compensate for bibliography's missing section header
+	\renewcommand{\section}[1]{}
+	\setlength{\presubspace}{.7em}
+	\setlength{\postsubspace}{-.6em}
+
+	\vspace{-.27in}
+
+	\subsection{Conference and Journal Papers}
+	\nocitePaper{*}
+	\bibliographystylePaper{plain-url-inline-revchron}
+	\bibliographyPaper{Bibliographies/Papers}
+	
+	\subsection{Workshop Papers and Technical Reports}
+	\nociteWorkshop{*}
+	\bibliographystyleWorkshop{plain-url-inline-revchron}
+	\bibliographyWorkshop{Bibliographies/Workshops}
+
+	\subsection{Book Chapters}
+	\nociteBook{*}
+	\bibliographystyleBook{plain-url-inline-revchron}
+	\bibliographyBook{Bibliographies/Books}
+
+	\subsection{Ph.D. Dissertation}
+	\nocitePhD{*}
+	\bibliographystylePhD{plain-url-inline-revchron}
+	\bibliographyPhD{Bibliographies/PhD}	
+
+	\subsection{Posters \& Presentations}
+	\nocitePoster{*}
+	\bibliographystylePoster{plain-url-inline-revchron}
+	\bibliographyPoster{Bibliographies/Posters}
+		
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
