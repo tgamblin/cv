@@ -1,13 +1,7 @@
 # -*- ruby -*-
 
 require 'Set'
-
-texname = 'todd-cv'
 web_dest = 'snapper.cs.unc.edu:www/cv'
-
-texfile = "#{texname}.tex"
-pdffile = "#{texname}.pdf"
-htmlfile = "html/#{texname}.html"
 
 # Recursively get all dependences of a tex file, return them as a set of file names.
 def get_deps(texfile, deps = Set.new(texfile))
@@ -26,10 +20,11 @@ def get_deps(texfile, deps = Set.new(texfile))
   return deps
 end
 
-task :default => :pdf
+# Get deps of a pdf and build it using pdflatex and bibtex
+def build_pdf(name)
+  texfile = "#{name}.tex"
+  pdffile = "#{name}.pdf"
 
-
-task :pdf do
   unless get_deps(texfile).map { |file| FileUtils.uptodate?(pdffile, file) }.all?
     system("pdflatex #{texfile}")
   end
@@ -59,17 +54,30 @@ task :pdf do
   end
 end
 
+# various filename variables
+name="todd-cv"
+pdffile = "#{name}.pdf"
+texfile = "#{name}.tex"
+htmlfile = "html/#{name}.html"
 
+task :default => :cv
+
+# Main cv target
+task :cv do
+  build_pdf(name)
+end
+
+# HTML targets for regular CV.
 task :html => :pdf do
   ruby 'html/transform-html.rb', pdffile, htmlfile
 end
-
 
 task :upload => :html do
   system("scp #{pdffile} #{htmlfile} html/*.png #{web_dest}")
 end
 
 
+# Clean everything up
 task :clean do 
   files = [pdffile]
   files.unshift Dir.glob(%w(*.aux *.bbl *.blg *.log *.out html/*.html html/*.png))
