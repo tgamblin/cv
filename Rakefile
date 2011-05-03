@@ -58,7 +58,6 @@ end
 name="todd-cv"
 pdffile = "#{name}.pdf"
 texfile = "#{name}.tex"
-htmlfile = "html/#{name}.html"
 
 task :default => :cv
 
@@ -67,19 +66,13 @@ task :cv do
   build_pdf(name)
 end
 
-# HTML targets for regular CV.
-task :html => :pdf do
-  ruby 'html/transform-html.rb', pdffile, htmlfile
+task :upload => :cv do
+  system("scp #{pdffile} #{web_dest}")
 end
-
-task :upload => :html do
-  system("scp #{pdffile} #{htmlfile} html/*.png #{web_dest}")
-end
-
 
 # Clean everything up
 task :clean do 
   files = [pdffile]
-  files.unshift Dir.glob(%w(*.aux *.bbl *.blg *.log *.out html/*.html html/*.png))
+  files.unshift Dir.glob(%w(*.aux *.bbl *.blg *.log *.out))
 	FileUtils.rm_f(files)
 end
