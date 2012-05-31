@@ -10,11 +10,11 @@ id=1                            # Start the <ol> lists in the output at 1
 
 #
 # Usage:
-# 
+#
 #   bibliography <bibtex-file.bib> "Title"
-# 
-# This will write out a section titled "Title" containing all 
-# 
+#
+# This will write out a section titled "Title" containing all
+#
 #
 function bibliography {
     # use bib2xhtml and grep the ul list items away
@@ -41,7 +41,7 @@ EOF
 #
 bibliography Papers.bib    "Conference &amp; Journal Papers"
 bibliography Workshops.bib "Workshop Papers &amp; Technical Reports"
-bibliography Books.bib     "Book Chapters"
+bibliography Books.bib     "Book Chapters &amp; Articles"
 bibliography PhD.bib       "Ph.D. Dissertation"
 bibliography Posters.bib   "Posters &amp; Presentations"
 
