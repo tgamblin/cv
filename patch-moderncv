@@ -1,0 +1,24 @@
+#!/bin/sh
+#
+# This script makes a moderncv package able to be used from a subdir of a project.
+# It patches all the RequirePackage directives that include moderncv files and assumes
+# that moderncv lives in the $directory subdirectory.
+#
+# This is usable multiple times on the same files, in case you change the name of their
+# enclosing directory.
+#
+
+# Make sure the user said which subdir to patch
+if [ -z "$1" ]; then
+    echo "Usage: patch-moderncv <subdirectory-name>"
+    exit 1
+fi
+
+# # Name of the subdirecory moderncv lives in.
+dir=$1
+
+# Replace the moderncv require statements with ones that point to the subdir.
+# Note that this can be applied to already-patched lines.
+perl -i~ -pe "s#(\\\\RequirePackage[^{]*){(.*/)?(moderncv[^}]*)}#\\1\\{$dir/\\3\\}#;\
+              s#(\\\\RequirePackage[^{]*){(.*/)?(tweaklist)}#\\1\\{$dir/\\3\\}#;\
+" $dir/moderncv.cls $dir/moderncv*.sty
