@@ -1,4 +1,4 @@
-%!TEX TS-program = multibib 
+%!TEX TS-program = multibib
 \documentclass[10pt,letterpaper]{moderncv/moderncv}
 \usepackage{wrapfig}
 
@@ -10,8 +10,6 @@
 \usepackage[utf8]{inputenc}                  % replace by the encoding you are using
 %\renewcommand{\familydefault}{\sfdefault}   % to set the default font; use '\sfdefault' for the default sans serif font, '\rmdefault' for the default roman one, or any tex font name
 \nopagenumbers{}                             % uncomment to suppress automatic page numbering for CVs longer than one page
-
-
 
 %----------------------------------------------------------------------------------
 % Geometry and margins.
@@ -54,20 +52,20 @@
 
 %----------------------------------------------------------------------------------
 % Custom commands.
-%---------------------------------------------------------------------------------- 
-% command and color used in this document, independently from moderncv 
+%----------------------------------------------------------------------------------
+% command and color used in this document, independently from moderncv
 \definecolor{see}{rgb}{0.5,0.5,0.5}% for web links
 \newcommand{\see}[1]{\hfill{\itshape\color{see}\footnotesize{}see #1}}
 
 %----------------------------------------------------------------------------------
 % Bibliography Customizations.
-%---------------------------------------------------------------------------------- 
+%----------------------------------------------------------------------------------
 % Put labels next to best posters, based on bibliography order.
 % NOTE: this is a little nasty; numbers need to be updated every time the pubs change.
 \makeatletter
 \renewcommand{\bibliographyitemlabel}{
-	\ifthenelse{\value{enumiv}=34\or%
-				\value{enumiv}=44}{\color{color1}\textbf{Best Poster} \color{black}}{}
+	\ifthenelse{\value{enumiv}=38\or%
+				\value{enumiv}=48}{\color{color1}\textbf{Best Poster} \color{black}}{}
 	{\@biblabel{\arabic{enumiv}}}%
 }
 \makeatother
@@ -127,12 +125,12 @@
 
 	\nocitePhD{*}
 	\bibliographystylePhD{plain-url-inline-revchron}
-	\bibliographyPhD{Bibliographies/PhD}	
+	\bibliographyPhD{Bibliographies/PhD}
 
 	\nocitePoster{*}
 	\bibliographystylePoster{plain-url-inline-revchron}
 	\bibliographyPoster{Bibliographies/Posters}
-	
+
 	% Restore subsection command in case something happens after here.
 	\let\subsection\oldsubsection
 \end{document}
