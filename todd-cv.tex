@@ -1,40 +1,30 @@
 %!TEX TS-program = multibib 
-\documentclass[10pt,letterpaper]{moderncv}
-
+\documentclass[10pt,letterpaper]{moderncv/moderncv}
 \usepackage{wrapfig}
 
 %----------------------------------------------------------------------------------
-% Use these to set subsection spacing.  These are reset before
-% the Bibliography for sections for different types of pubs.
+% moderncv Setup
 %----------------------------------------------------------------------------------
-\newlength{\presubspace}
-\newlength{\postsubspace} 
+\moderncvstyle{casual}                       % style options are 'casual' (default), 'classic', 'oldstyle' and 'banking'
+\moderncvcolor{blue}                         % color options 'blue' (default), 'orange', 'green', 'red', 'purple', 'grey' and 'black'
+\usepackage[utf8]{inputenc}                  % replace by the encoding you are using
+%\renewcommand{\familydefault}{\sfdefault}   % to set the default font; use '\sfdefault' for the default sans serif font, '\rmdefault' for the default roman one, or any tex font name
+\nopagenumbers{}                             % uncomment to suppress automatic page numbering for CVs longer than one page
 
-\setlength{\presubspace}{-.7em}
-\setlength{\postsubspace}{-.2em}
-
-\renewcommand{\subsectionstyle}[1]{
-	\vspace{\presubspace}
-	\large\color{sectiontitlecolor}{\em ---~#1~---}
-	\vspace{\postsubspace}
-}
-
-% reduce spacing bt/w sections.
-\let\oldsection\section
-\renewcommand{\section}[1]{
-	\vspace{-.085in}
-	\oldsection{#1}
-}
-\let\oldsubsection\subsection
-\renewcommand{\subsection}[1]{
-	\oldsubsection{#1}
-}
 
 
 %----------------------------------------------------------------------------------
-% Hyperref and url are included by moderncv.  Set up custom
-% link colors here.
+% Geometry and margins.
 %----------------------------------------------------------------------------------
+\usepackage[scale=0.8]{geometry}
+\setlength{\hintscolumnwidth}{2.8cm}						 % if you want to change the width of the column with the dates
+%\AtBeginDocument{\setlength{\maketitlenamewidth}{6cm}}  % only for the classic theme, - to change width of name placeholder (to leave more space for your address details)
+\AtBeginDocument{\recomputelengths}                      % required when changes are made to page layout lengths
+
+%----------------------------------------------------------------------------------
+% Set up hyperref custom link colors.
+%----------------------------------------------------------------------------------
+\usepackage{hyperref}
 \definecolor{mylinkcolor}{rgb}{0.15,0.3,0.48}
 \hypersetup{
     colorlinks=true,%
@@ -46,55 +36,54 @@
 }
 \urlstyle{sf}    % Make URLs match rest of text.
 
-% moderncv themes
-\moderncvtheme[blue]{casual}                 % optional argument are 'blue' (default), 'orange', 'red', 'green', 'grey' and 'roman' (for roman fonts, instead of sans serif fonts)
-%\moderncvtheme[green]{classic}                % idem
-
-% character encoding
-\usepackage[utf8]{inputenc}   % replace by the encoding you are using
-
-% adjust the page margins
-\usepackage[scale=0.8]{geometry}
-%\setlength{\hintscolumnwidth}{3cm}						% if you want to change the width of the column with the dates
-%\AtBeginDocument{\setlength{\maketitlenamewidth}{6cm}}  % only for the classic theme, if you want to change the width of your name placeholder (to leave more space for your address details
-\AtBeginDocument{\recomputelengths}                     % required when changes are made to page layout lengths
-
-
-% personal data 
+%----------------------------------------------------------------------------------
+% Personal data.
+%----------------------------------------------------------------------------------
 \firstname{Todd}
 \familyname{Gamblin}
-%\title{Resumé title (optional)}               % optional, remove the line if not wanted
-\address{P.O. Box 808, L-557}{Livermore, CA, 94551}    % optional, remove the line if not wanted
-\phone{919.360.8283}                    % optional, remove the line if not wanted
-%\phone{925-422-9319}                      % optional, remove the line if not wanted
-%\fax{fax (optional)}                          % optional, remove the line if not wanted
-\email{tgamblin@gmail.com}                      % optional, remove the line if not wanted
-\extrainfo{\href{http://people.llnl.gov/gamblin2}{\url{http://people.llnl.gov/gamblin2}}} % optional, remove the line if not wanted
-%\photo[64pt]{picture}                         % '64pt' is the height the picture must be resized to and 'picture' is the name of the picture file; optional, remove the line if not wanted
-%\quote{Some quote (optional)}                 % optional, remove the line if not wanted
+%\title{Resumé title (optional)}                       % optional
+\address{P.O. Box 808, L-557}{Livermore, CA, 94551}    % optional
+\phone{919.360.8283}                                   % optional
+%\phone{925-422-9319}                                  % optional
+%\fax{fax (optional)}                                  % optional
+\email{tgamblin@gmail.com}                             % optional
+\extrainfo{\href{http://people.llnl.gov/gamblin2}{\url{http://people.llnl.gov/gamblin2}}}
+%\quote{Some quote (optional)}                         % optional
+%\photo[64pt]{picture}                                 % optional, '64pt' is the height the picture must be resized to and
+                                                       %'picture' is the name of the picture file
 
-\nopagenumbers{}      % suppress automatic page numbering for CVs longer than one page
-
+%----------------------------------------------------------------------------------
+% Custom commands.
+%---------------------------------------------------------------------------------- 
 % command and color used in this document, independently from moderncv 
 \definecolor{see}{rgb}{0.5,0.5,0.5}% for web links
-\newcommand{\up}[1]{\ensuremath{^\textsf{\scriptsize#1}}}% for text subscripts
+\newcommand{\see}[1]{\hfill{\itshape\color{see}\footnotesize{}see #1}}
 
-% Put labels next to publications
+%----------------------------------------------------------------------------------
+% Bibliography Customizations.
+%---------------------------------------------------------------------------------- 
+% Put labels next to best posters, based on bibliography order.
+% NOTE: this is a little nasty; numbers need to be updated every time the pubs change.
+\makeatletter
 \renewcommand{\bibliographyitemlabel}{
-	\ifthenelse	{\value{enumiv}=34}
-	 			{\color{sectiontitlecolor}\textbf{Best Poster} \color{black}}{}%
-   {\ifthenelse	{\value{enumiv}=44}
-	 			{\color{sectiontitlecolor}\textbf{Best Poster} \color{black}}{}%
-	{[}{\arabic{enumiv}}{]}}%
+	\ifthenelse{\value{enumiv}=34\or%
+				\value{enumiv}=44}{\color{color1}\textbf{Best Poster} \color{black}}{}
+	{\@biblabel{\arabic{enumiv}}}%
 }
+\makeatother
 
-% Multiple Bibliographies  
+% Bibliography section formatting
+\newlength{\bibliographysectionspacing}            % Spacing before all sections but the first
+\setlength{\bibliographysectionspacing}{.15in}
+\newcommand{\bibsectiontitleformat}[1]{#1}         % Additional formatting for each section title
+
+% Multiple Bibliographies and their titles.
 \usepackage{multibib}
-\newcommand{\paperSecTitle}   {Conference \& Journal Papers}
-\newcommand{\workshopSecTitle}{Workshops \& Technical Reports}
-\newcommand{\bookSecTitle}    {Book Chapters \& Articles}
-\newcommand{\phdSecTitle}     {Ph.D. Dissertation}
-\newcommand{\posterSecTitle}  {Posters \& Presentations}
+\newcommand{\paperSecTitle}   {\bibsectiontitleformat{Conference \& Journal Papers}}
+\newcommand{\workshopSecTitle}{\bibsectiontitleformat{Workshops \& Technical Reports}}
+\newcommand{\bookSecTitle}    {\bibsectiontitleformat{Book Chapters \& Articles}}
+\newcommand{\phdSecTitle}     {\bibsectiontitleformat{Ph.D. Dissertation}}
+\newcommand{\posterSecTitle}  {\bibsectiontitleformat{Posters \& Presentations}}
 \newcites{Paper,Workshop,Book,PhD,Poster}{
 	\paperSecTitle,\workshopSecTitle,\bookSecTitle,\phdSecTitle,\posterSecTitle}
 
@@ -131,38 +120,32 @@
 %            Publications
 %----------------------------------------------------------------------------------
 \section{Publications}
-	% Compensate for bibliography's missing section header
-	\renewcommand{\section}[1]{}
-	\setlength{\presubspace}{.7em}
-	\setlength{\postsubspace}{-.6em}
-
-	\vspace{-.29in}
-
-	\subsection{\paperSecTitle}
 	\nocitePaper{*}
 	\bibliographystylePaper{plain-url-inline-revchron}
 	\bibliographyPaper{Bibliographies/Papers}
-	
-	\subsection{\workshopSecTitle}
+
+	% Put some space between bibliography sections below here.
+	\let\oldsubsection\subsection
+	\renewcommand{\subsection}[1]{\vspace{\bibliographysectionspacing}\oldsubsection{#1}}
+
 	\nociteWorkshop{*}
 	\bibliographystyleWorkshop{plain-url-inline-revchron}
 	\bibliographyWorkshop{Bibliographies/Workshops}
 
-	\subsection{\bookSecTitle}
 	\nociteBook{*}
 	\bibliographystyleBook{plain-url-inline-revchron}
 	\bibliographyBook{Bibliographies/Books}
 
-	\subsection{\phdSecTitle}
 	\nocitePhD{*}
 	\bibliographystylePhD{plain-url-inline-revchron}
 	\bibliographyPhD{Bibliographies/PhD}	
 
-	\subsection{\posterSecTitle}
 	\nocitePoster{*}
 	\bibliographystylePoster{plain-url-inline-revchron}
 	\bibliographyPoster{Bibliographies/Posters}
-		
+	
+	% Restore subsection command in case something happens after here.
+	\let\subsection\oldsubsection
 \end{document}
 
 

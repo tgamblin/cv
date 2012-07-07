@@ -6,17 +6,17 @@ web_dest = 'snapper.cs.unc.edu:www/cv'
 # Recursively get all dependences of a tex file, return them as a set of file names.
 def get_deps(texfile, deps = Set.new(texfile))
   basenames = File.open(texfile).grep(/\\(include|input)\{([^}]+)\}/) { |x| $2 }
-  depfiles = basenames.map do |name| 
+  depfiles = basenames.map do |name|
     if name =~ /\.tex$/ then name else name + ".tex" end
   end
-  
+
   depfiles.each do |file|
     if not deps.member?(file)
       deps.add(file)
       get_deps(file, deps)
     end
-  end  
-  
+  end
+
   return deps
 end
 
@@ -28,7 +28,7 @@ def build_pdf(name)
   unless get_deps(texfile).map { |file| FileUtils.uptodate?(pdffile, file) }.all?
     system("pdflatex #{texfile}")
   end
-  
+
   newcites = File.open(texfile).grep(/newcites/).first
   bibnamestring = newcites.scan(/\{(\w+(,\w+)*)\}/).map {|x| x[0]}.first
   bibnames = bibnamestring.split(',')
@@ -38,7 +38,7 @@ def build_pdf(name)
       "#{$1}.bib"
     end
   end
-  
+
   bibbed = false
   bibnames.zip(bibfiles).each do |name, bibfile|
     bblfile = "#{name}.bbl"
@@ -47,7 +47,7 @@ def build_pdf(name)
       bibbed = true
     end
   end
-  
+
   if (bibbed)
     system("pdflatex #{texfile}")
     system("pdflatex #{texfile}")
@@ -71,8 +71,8 @@ task :upload => :cv do
 end
 
 # Clean everything up
-task :clean do 
+task :clean do
   files = [pdffile]
-  files.unshift Dir.glob(%w(*.aux *.bbl *.blg *.log *.out))
+  files.unshift Dir.glob(%w(*.aux *.bbl *.blg *.log *.out *synctex.gz*))
 	FileUtils.rm_f(files)
 end

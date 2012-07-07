@@ -1,5 +1,5 @@
 %% start of file `moderncv.cls'.
-%% Copyright 2006-2008 Xavier Danaux (xdanaux@gmail.com).
+%% Copyright 2006-2012 Xavier Danaux (xdanaux@gmail.com).
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License version 1.3c,
@@ -10,13 +10,7 @@
 %                identification
 %-------------------------------------------------------------------------------
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{moderncv}[2008/06/17 v0.7 modern curriculum vitae document class]
-
-
-%-------------------------------------------------------------------------------
-%                debugging
-%-------------------------------------------------------------------------------
-\newif\if@DEBUG\@DEBUGfalse
+\ProvidesClass{moderncv}[2012/03/26 v1.0 modern curriculum vitae and letter document class]
 
 
 %-------------------------------------------------------------------------------
@@ -56,20 +50,16 @@
 \DeclareOption{11pt}{\renewcommand\@ptsize{1}}
 \DeclareOption{12pt}{\renewcommand\@ptsize{2}}
 
+% font type options
+\DeclareOption{sans}{\renewcommand{\familydefault}{\sfdefault}}
+\DeclareOption{roman}{\renewcommand{\familydefault}{\rmdefault}}
+
 % draft/final option
 \DeclareOption{draft}{\setlength\overfullrule{5pt}}
 \DeclareOption{final}{\setlength\overfullrule{0pt}}
 
-% nolmodern option
-\newif\if@lmodern\@lmoderntrue
-\DeclareOption{nolmodern}{\@lmodernfalse}
-
-% nocolor option
-\newif\if@color\@colortrue
-\DeclareOption{nocolor}{\@colorfalse}
-
 % execute default options
-\ExecuteOptions{a4paper,11pt,color,final}
+\ExecuteOptions{a4paper,11pt,sans,final}
 
 % process given options
 \ProcessOptions\relax
@@ -79,84 +69,88 @@
 %-------------------------------------------------------------------------------
 %                required packages
 %-------------------------------------------------------------------------------
-% ifthen package
+% \AtEndPreamble hook (loading tetoolbox instead of defining the macro, as to avoid incompatibilities with etoolbox (and packages relying on it) defining the macro too)
+\RequirePackage{etoolbox}
+%\let\@endpreamblehook\@empty
+%\def\AtEndPreamble{\g@addto@macro\@endpreamblehook}
+%\let\moderncv@document\document
+%\def\document{\endgroup\@endpreamblehook\begingroup\moderncv@document}
+
+% if... then... else... constructs
 \RequirePackage{ifthen}
 
-% ifpdf package
-\RequirePackage{ifpdf}
+% color
+\RequirePackage{xcolor}
 
-% color package
-\ifpdf
-  \RequirePackage[pdftex]{color}
-\else
-  \RequirePackage[dvips]{color}
-\fi
-
-% fontenc package
-\RequirePackage[T1]{fontenc}
-
-% scalable Computer Modern fonts
-%\usepackage{type1cm}
-
-% latin modern fonts
-\AtEndOfClass{%
-  \if@lmodern
-    \RequirePackage{lmodern}\fi}
+% automatic loading of latin modern fonts if present on the system
+\IfFileExists{lmodern.sty}
+  {\RequirePackage[T1]{fontenc}\RequirePackage{lmodern}}
+  {}
 
 % symbols like \Telefon, \Mobilefone, \Letter and \Email
 \RequirePackage{marvosym}
 
-% extended characters of T1 in .ps + other guillemets
-%\RequirePackage{ae,aecompl,aeguill}
-
-% page geometry
-\addtolength{\oddsidemargin}{-54pt}
-\addtolength{\textwidth}{109pt}
-\addtolength{\topmargin}{-70pt}
-\addtolength{\textheight}{122pt}
-\addtolength{\marginparsep}{-5pt}
-\addtolength{\marginparwidth}{-10pt}
-
-% hyperrefs
+% hyper links (hyperref is loaded at the end of the preamble to pass options required by loaded packages such as CJK)
 \RequirePackage{url}
-\ifpdf
-  \RequirePackage[pdftex,]{hyperref}
-\else
-  \RequirePackage[dvips]{hyperref}\fi
-\hypersetup{%
-  breaklinks,
-  baseurl       = http://,%
-  pdfborder     = 0 0 0,%
-  pdfpagemode   = UseNone,%
-%  pdfstartview  = XYZ,%
-  pdfstartpage  = 1,%
-  pdfcreator    = \LaTeX{} with `moderncv' package,%
-  pdfproducer   = \LaTeX}
-\AtEndOfClass{%
-  \AtBeginDocument{%
-    \hypersetup{%
-      pdfauthor     = \@firstname~\@familyname,%
-      pdftitle      = \@title,%
-      pdfsubject    = \@firstname~\@familyname,%
-      pdfkeywords   = \@firstname~\@familyname{} curriculum vit\ae{}}}}
 \urlstyle{tt}
+\AtEndPreamble{
+  \@ifpackageloaded{CJK}
+    {\RequirePackage[unicode]{hyperref}}
+    {\RequirePackage{hyperref}}
+    \hypersetup{
+      breaklinks,
+      baseurl       = http://,
+      pdfborder     = 0 0 0,
+      pdfpagemode   = UseNone,% do not show thumbnails or bookmarks on opening
+      pdfpagelabels = false,% to avoid a warning setting it automatically to false anyway, because hyperref detects \thepage as undefined (why?)
+      pdfstartpage  = 1,
+      pdfcreator    = {\LaTeX{} with `moderncv' package},
+%      pdfproducer   = {\LaTeX{}},% will/should be set automatically to the correct TeX engine used
+      bookmarksopen = true,
+      bookmarksdepth= 2,% to show sections and subsections
+      pdfauthor     = {\@firstname{}~\@familyname{}},
+      pdftitle      = {\@firstname{}~\@familyname{} -- \@title{}},
+      pdfsubject    = {Resum\'{e} of \@firstname{}~\@familyname{}},
+      pdfkeywords   = {\@firstname{}~\@familyname{}, curriculum vit\ae{}, resum\'{e}}}
+  \pagenumbering{arabic}% has to be issued after loading hyperref
+}
 
 % graphics
-\ifpdf
-  \RequirePackage[pdftex]{graphicx}
-\else
-  \RequirePackage[dvips]{graphicx}\fi
+\RequirePackage{graphicx}
 
 % headers and footers
-\usepackage{fancyhdr}
-\fancypagestyle{plain}{%
+\RequirePackage{fancyhdr}
+\fancypagestyle{plain}{
   \renewcommand{\headrulewidth}{0pt}
   \renewcommand{\footrulewidth}{0pt}
   \fancyhf{}}
+% page numbers in footer if more than 1 page
+\newif\if@displaypagenumbers\@displaypagenumberstrue
+\newcommand*{\nopagenumbers}{\@displaypagenumbersfalse}
+\AtEndPreamble{%
+  \AtBeginDocument{%
+    \if@displaypagenumbers%
+      \@ifundefined{r@lastpage}{}{%
+        \ifthenelse{\pageref{lastpage}>1}{%
+          \newlength{\pagenumberwidth}%
+          \settowidth{\pagenumberwidth}{\color{color2}\addressfont\itshape\strut\thepage/\pageref{lastpage}}%
+          \fancypagestyle{plain}{%
+            \fancyfoot[r]{\parbox{\pagenumberwidth}{\color{color2}\addressfont\itshape\strut\thepage/\pageref{lastpage}}}}% the parbox is required to ensure alignment with a possible center footer (e.g., as in the casual style)
+          \pagestyle{plain}}{}}%
+      \AtEndDocument{\label{lastpage}}\else\fi}}
 \pagestyle{plain}
 
+% lengths calculations
+\RequirePackage{calc}
+
+% advanced command arguments
+\RequirePackage{xargs}
+
+% micro-typography (e.g., character  protrusion, font expansion, hyphenatable letterspacing)
+\RequirePackage{microtype}
+
 % compatibility package with older versions of moderncv
-\RequirePackageWithOptions{moderncvcompatibility}
+\RequirePackageWithOptions{moderncv/moderncvcompatibility}
 
 
 %-------------------------------------------------------------------------------
@@ -166,69 +160,28 @@
 \setlength\lineskip{1\p@}
 \setlength\normallineskip{1\p@}
 \renewcommand\baselinestretch{}
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0pt}
+\setlength{\parindent}{0\p@}
+\setlength{\parskip}{0\p@}
 \setlength\columnsep{10\p@}
 \setlength\columnseprule{0\p@}
-\pagestyle{empty}
-\pagenumbering{arabic}
+\setlength\fboxsep{3\p@}
+\setlength\fboxrule{.4\p@}
+
+% Not required
+%\setlength\arraycolsep{5\p@}
+%\setlength\tabcolsep{6\p@}
+%\setlength\arrayrulewidth{.4\p@}
+%\setlength\doublerulesep{2\p@}
+%\setlength\tabbingsep{\labelsep}
+
 \raggedbottom
 \onecolumn
 
 
 %-------------------------------------------------------------------------------
-%                style commands definitions
+%                overall design commands definitions
 %-------------------------------------------------------------------------------
-% symbols used 
-\providecommand*{\listitemsymbol}{\textbullet}
-\providecommand*{\addresssymbol}{}
-\providecommand*{\mobilesymbol}{\Mobilefone}
-\providecommand*{\phonesymbol}{\Telefon}
-\providecommand*{\faxsymbol}{\FAX}
-\providecommand*{\emailsymbol}{\Letter}
-
-% colors
-\definecolor{firstnamecolor}{rgb}{0,0,0}
-\definecolor{familynamecolor}{rgb}{0,0,0}
-\definecolor{titlecolor}{rgb}{0,0,0}
-\definecolor{addresscolor}{rgb}{0,0,0}
-\definecolor{quotecolor}{rgb}{0,0,0}
-\definecolor{sectionrectanglecolor}{rgb}{0,0,0}
-\definecolor{sectiontitlecolor}{rgb}{0,0,0}
-\definecolor{subsectioncolor}{rgb}{0,0,0}
-\definecolor{hintcolor}{rgb}{0,0,0}
-
-% fonts
-\providecommand*{\firstnamefont}{}
-\providecommand*{\familynamefont}{}
-\providecommand*{\titlefont}{}
-\providecommand*{\addressfont}{}
-\providecommand*{\quotefont}{}
-\providecommand*{\sectionfont}{}
-\providecommand*{\subsectionfont}{}
-\providecommand*{\hintfont}{\small\sffamily}
-
-% styles
-\providecommand*{\firstnamestyle}[1]{{\firstnamefont\color{firstnamecolor}#1}}
-\providecommand*{\familynamestyle}[1]{{\familynamefont\color{familynamecolor}#1}}
-\providecommand*{\titlestyle}[1]{{\titlefont\color{titlecolor}#1}}
-\providecommand*{\addresstyle}[1]{{\addressfont\color{addresscolor}#1}}
-\providecommand*{\quotestyle}[1]{{\quotefont\color{quotecolor}#1}}
-\providecommand*{\sectionstyle}[1]{{\sectionfont\color{sectiontitlecolor}#1}}
-\providecommand*{\subsectionstyle}[1]{{\subsectionfont\color{subsectioncolor}#1}}
-\providecommand*{\hintstyle}[1]{{\hintfont\color{hintcolor}#1}}
-
-% themes: casual (default), classic, ...
-\newcommand*{\moderncvtheme}[2][]{
-  \def\@moderncvtheme{#2}
-  \def\@moderncvthemeoptions{#1}}
-\moderncvtheme{casual}   % default theme
-\AtBeginDocument{\RequirePackage[\@moderncvthemeoptions]{moderncvtheme\@moderncvtheme}}
-
-
-%-------------------------------------------------------------------------------
-%                structure commands definitions
-%-------------------------------------------------------------------------------
+% elements
 \newcommand*{\firstname}[1]{\def\@firstname{#1}}
 \newcommand*{\familyname}[1]{\def\@familyname{#1}}
 \renewcommand*{\title}[1]{\def\@title{#1}}
@@ -237,187 +190,237 @@
 \newcommand*{\phone}[1]{\def\@phone{#1}}
 \renewcommand*{\fax}[1]{\def\@fax{#1}}
 \newcommand*{\email}[1]{\def\@email{#1}}
+\newcommand*{\homepage}[1]{\def\@homepage{#1}}
+
+% colors
+\definecolor{color0}{rgb}{0,0,0}% main default color, normally left to black
+\definecolor{color1}{rgb}{0,0,0}% primary theme color
+\definecolor{color2}{rgb}{0,0,0}% secondary theme color
+\definecolor{color3}{rgb}{0,0,0}% tertiary theme color
+
+% symbols
+%   itemize labels (the struts were added to correct inter-item spacing (works for single line items, until a solution is found for multi-line ones...)
+\newcommand*{\labelitemi}{\strut\textcolor{color1}{\Neutral}}% alternative" \fontencoding{U}\fontfamily{ding}\selectfont\tiny\symbol{'102}
+\newcommand*{\labelitemii}{\strut\textcolor{color1}{\large\bfseries-}}
+\newcommand*{\labelitemiii}{\strut\textcolor{color1}{\textperiodcentered}}% alternative: \textasteriskcentered; both force the use of the CMSY font, even when lmodern fonts are used :(
+\newcommand*{\labelitemiv}{\strut\textcolor{color1}{\textperiodcentered}}
+%   enumerate labels
+\renewcommand{\theenumi}{\@arabic\c@enumi}
+\renewcommand{\theenumii}{\@alph\c@enumii}
+\renewcommand{\theenumiii}{\@roman\c@enumiii}
+\renewcommand{\theenumiv}{\@Alph\c@enumiv}
+%   other symbols
+\newcommand*{\listitemsymbol}{\labelitemi~}
+\newcommand*{\addresssymbol}{}
+\newcommand*{\mobilesymbol}{\Mobilefone~}
+\newcommand*{\phonesymbol}{\Telefon~}
+\newcommand*{\faxsymbol}{\FAX~}
+\newcommand*{\emailsymbol}{\Letter~}
+\newcommand*{\homepagesymbol}{{\Large\ComputerMouse}~}
+
+% fonts
+\AtBeginDocument{\normalfont\color{color0}}
+
+% makes the footer (normally used both for the resume and the letter)
+% usage: \makefooter
+\newcommand*{\makefooter}{}%
+
+% loads a style scheme
+\newcommand*{\moderncvstyle}[1]{
+  \RequirePackage{moderncv/moderncvstyle#1}}
+  
+% loads a color scheme
+\newcommand*{\moderncvcolor}[1]{
+  \RequirePackage{moderncv/moderncvcolor#1}}
+
+% recomputes all automatic lengths
+\newcommand*{\recomputelengths}{\recomputecvlengths}
+\AtBeginDocument{\recomputelengths{}}
+
+% creates a length if not yet defined
+\newcommand*{\@initializelength}[1]{%
+  \ifdefined#1\else\newlength{#1}\fi}
+
+
+%-------------------------------------------------------------------------------
+%                resume design commands definitions
+%-------------------------------------------------------------------------------
+% elements
 \newcommand*{\extrainfo}[1]{\def\@extrainfo{#1}}
-\def\@photowidth{0pt}
-\newcommand*{\photo}[2][64pt]{\def\@photowidth{#1}\def\@photo{#2}}
+\newcommandx*{\photo}[3][1=64pt,2=0.4pt,usedefault]{\def\@photowidth{#1}\def\@photoframewidth{#2}\def\@photo{#3}}% the 1st (optional) argument is the width of the photo, the 2nd (optional) argument is the thickness of the frame around it.
 \newcommand*{\quote}[1]{\def\@quote{#1}}
 
-% length used by the moderncv layout
-% quote length
-\newlength{\quotewidth}
-% section lengths
-\newlength{\hintscolumnwidth}
-\newlength{\separatorcolumnwidth}
-\setlength{\separatorcolumnwidth}{0.025\textwidth}
-\newlength{\maincolumnwidth}
-% doubleitem lengths
-\newlength{\doubleitemmaincolumnwidth}
-% listitem lengths
-\newlength{\listitemsymbolwidth}
-\settowidth{\listitemsymbolwidth}{\listitemsymbol{}~}
-\newlength{\listitemmaincolumnwidth}
-% listdoubleitem lengths
-\newlength{\listdoubleitemmaincolumnwidth}
-% recompute all the lengths that depends on the text width
-\newcommand*{\recomputethemelengths}{}
-\newcommand*{\recomputelengths}{%
-  \setlength{\quotewidth}{0.65\textwidth}%
-  % main lenghts
-  \setlength{\maincolumnwidth}{\textwidth}%
-  \addtolength{\maincolumnwidth}{-\separatorcolumnwidth}%
-  \addtolength{\maincolumnwidth}{-\hintscolumnwidth}%
-  % listitem lengths
-  \setlength{\listitemmaincolumnwidth}{\maincolumnwidth}%
-  \addtolength{\listitemmaincolumnwidth}{-\listitemsymbolwidth}%
-  % doubleitem lengths
-  \setlength{\doubleitemmaincolumnwidth}{\maincolumnwidth}%
-  \addtolength{\doubleitemmaincolumnwidth}{-\hintscolumnwidth}%
-  \addtolength{\doubleitemmaincolumnwidth}{-\separatorcolumnwidth}%
-  \setlength{\doubleitemmaincolumnwidth}{0.5\doubleitemmaincolumnwidth}%
-  % listdoubleitem lengths
-  \setlength{\listdoubleitemmaincolumnwidth}{\maincolumnwidth}%
-  \addtolength{\listdoubleitemmaincolumnwidth}{-\listitemsymbolwidth}%
-  \setlength{\listdoubleitemmaincolumnwidth}{0.475\listdoubleitemmaincolumnwidth}%
-  % fancyhdr lengths
-  \renewcommand{\headwidth}{\textwidth}%
-  \recomputethemelengths}
-\setlength{\hintscolumnwidth}{0.15\textwidth}
-\recomputelengths
+% fonts
+\newcommand*{\namefont}{}
+\newcommand*{\titlefont}{}
+\newcommand*{\addressfont}{}
+\newcommand*{\quotefont}{}
+\newcommand*{\sectionfont}{}
+\newcommand*{\subsectionfont}{}
+\newcommand*{\hintfont}{}
 
-% makes the cv title
-\title{}% to avoid LaTeX complaining that \maketitle is a called without first a call to \title
-\renewcommand*{\maketitle}{}%
+% recompute all resume lengths
+\newcommand*{\recomputecvlengths}{}
 
-% draws a colored rectangle
-% usage: \colorrule[optional height]{width}
-%\newcommand*{\colorrule}[2][1ex]{{\color{sectionrectanglecolor}{\rule{#2}{#1}}}}
+% internal maketitle command to issue a new line only when required
+\newif\if@firstdetailselement\@firstdetailselementtrue
+\newcommand*{\makenewline}{
+  \if@firstdetailselement%
+    \strut% to ensure baseline alignment, e.g. with when put in the margin vs sections that also contains a \strut
+  \else%
+    \\\fi%
+  \@firstdetailselementfalse}
 
+% makes the resume title
+% usage: \makecvtitle
+\newcommand*{\makecvtitle}{}%
+
+% makes the resume footer
+% usage: \makecvfooter
+\newcommand*{\makecvfooter}{\makefooter}%
+
+% makes a resume section
 % usage: \section{<title>}
-\newcommand*{\section}[1]{%
-	\vspace*{2.5ex \@plus 1ex \@minus .2ex}%
-  \phantomsection{}% reset the anchor for hyperrefs
-  \addcontentsline{toc}{part}{#1}%
-  \parbox[m]{\hintscolumnwidth}{\raggedleft\hintfont{\color{sectionrectanglecolor}\rule{\hintscolumnwidth}{1ex}}}%
-  \hspace{\separatorcolumnwidth}%
-  \parbox[m]{\maincolumnwidth}{\sectionstyle{#1}}\\[1ex]}
-%  \cvline[1ex]{\color{sectionrectanglecolor}\rule[0]{\hintscolumnwidth}{1ex}}{\sectionstyle{#1}}}% gives bad alignment of rectangle; too bad m{width} columns seem not to work as a valid column definition for tabular environments
+\newcommand*{\section}[1]{}
+% starred variant, which is identical but defined to allow its use (e.g. for natbib compatibility, who uses \section*{} for the bibliography header)
+\RequirePackage{suffix}
+\AtBeginDocument{\WithSuffix\newcommand\section*{\section}}
 
+% makes a resume subsection
 % usage: \subsection{title}
-\newcommand*{\subsection}[1]{%
-  \cvline[0.45em]{}{\subsectionstyle{#1}}}
+\newcommand*{\subsection}[1]{}
+\AtBeginDocument{\WithSuffix\newcommand\subsection*{\subsection}}
 
-% usage: \cvline{margintext}{linetext}
-\newcommand*{\cvline}[3][.25em]{%
-  \begin{tabular}{@{}p{\hintscolumnwidth}@{\hspace{\separatorcolumnwidth}}p{\maincolumnwidth}@{}}%
- 	  \raggedleft\hintfont{#2} &{#3}%
-  \end{tabular}\\[#1]}
+% makes a resume line with a header and a corresponding text
+% usage: \cvitem[spacing]{header}{text}
+\newcommand*{\cvitem}[3][.25em]{}
 
-% usage: \cvdoubleitem{subtitle}{text}{subtitle}{text}
-\newcommand*{\cvdoubleitem}[4]{%
- \cvline{#1}{\begin{minipage}[t]{\doubleitemmaincolumnwidth}#2\end{minipage}%
- \hfill%
- \begin{minipage}[t]{\hintscolumnwidth}\raggedleft\hintfont{#3}\end{minipage}\hspace*{\separatorcolumnwidth}\begin{minipage}[t]{\doubleitemmaincolumnwidth}#4\end{minipage}}}
+% makes a resume line 2 headers and their corresponding text
+% usage: \cvdoubleitem[spacing]{header1}{text1}{header2}{text2}
+\newcommand*{\cvdoubleitem}[5][.25em]{}
 
-% usage: \cvlistitem[symbol]{point1}
-\newcommand*{\cvlistitem}[2][\listitemsymbol{}]{%
-  \cvline[0pt]{}{#1~\begin{minipage}[t]{\listitemmaincolumnwidth}#2\end{minipage}}}
+% makes a resume line with a list item
+% usage: \cvlistitem[label]{item}
+\newcommand*{\cvlistitem}[2][\listitemsymbol]{}
 
-% usage: \cvlistdoubleitem[symbol]{point1}{point2}
-\newcommand*{\cvlistdoubleitem}[3][\listitemsymbol{}]{%
-  \cvline[0pt]{}{#1~\begin{minipage}[t]{\listdoubleitemmaincolumnwidth}#2\end{minipage}%
-  \hfill%
-  \ifthenelse{\equal{#3}{}}%
-    {}%
-    {#1~\begin{minipage}[t]{\listdoubleitemmaincolumnwidth}#3\end{minipage}}}}
+% makes a resume line with 2 list items
+% usage: \cvlistdoubleitem[label]{item1}{item2}
+\newcommand*{\cvlistdoubleitem}[3][\listitemsymbol]{}
 
-% usage: \cventry{years}{degree/job title}{institution/employer}{localization}{optionnal: grade/...}{optional: comment/job description}
-\newcommand*{\cventry}[6]{%
-  \cvline{#1}{%
-    {\bfseries#2}%
-    \ifx#3\else{, {\slshape#3}}\fi%
-    \ifx#4\else{, #4}\fi%
-    \ifx#5\else{, #5}\fi%
-    .%
-    \ifx#6\else{\newline{}\begin{minipage}[t]{\linewidth}\small#6\end{minipage}}\fi
-    }}%
+% makes a typical resume job / education entry
+% usage: \cventry[spacing]{years}{degree/job title}{institution/employer}{localization}{optionnal: grade/...}{optional: comment/job description}
+\newcommand*{\cventry}[7][.25em]{}
 
-% usage (inside 'language' cvsection environment): \cvlanguage{name}{level}{comment}
-\newcommand*{\cvlanguage}[3]{%
-  \cvline{#1}{\begin{minipage}[t]{.225\maincolumnwidth}\textbf{#2}\end{minipage}\hfill\begin{minipage}[t]{0.725\maincolumnwidth}\raggedleft\footnotesize\itshape #3\end{minipage}}}
+% makes a resume entry with a proficiency comment
+% usage: \cvitemwithcomment[spacing]{header}{text}{comment}
+\newcommand*{\cvitemwithcomment}[4][.25em]{}
 
-% usage (inside 'computer skills' cvsection environment): \cvcomputer{category}{programs}{category}{programs}
-\newcommand*{\cvcomputer}[4]{%
-  \cvdoubleitem{#1}{\small#2}{#3}{\small#4}}
-
+% makes a generic hyperlink
 % usage: \link[optional text]{link}
 \newcommand*{\link}[2][]{%
   \ifthenelse{\equal{#1}{}}%
     {\href{#2}{#2}}%
     {\href{#2}{#1}}}
 
+% makes a http hyperlink
 % usage: \httplink[optional text]{link}
 \newcommand*{\httplink}[2][]{%
   \ifthenelse{\equal{#1}{}}%
     {\href{http://#2}{#2}}%
     {\href{http://#2}{#1}}}
 
+% makes an email hyperlink
 % usage: \emaillink[optional text]{link}
 \newcommand*{\emaillink}[2][]{%
   \ifthenelse{\equal{#1}{}}%
     {\href{mailto:#2}{#2}}%
     {\href{mailto:#2}{#1}}}
 
-% usage: \nopagenumbers{}
-\newif\if@displaypagenumbers\@displaypagenumberstrue
-\newcommand*{\nopagenumbers}{\@displaypagenumbersfalse}
-\AtBeginDocument{%
-  \if@displaypagenumbers%
-    \@ifundefined{r@lastpage}{}{%
-      \ifthenelse{\pageref{lastpage} > 1}{%
-      \fancypagestyle{plain}{%
-        \fancyfoot[r]{\addressfont\color{quotecolor}\footnotesize\thepage/\pageref{lastpage}}}%
-      \pagestyle{plain}}{}}%
-  \AtEndDocument{\label{lastpage}}%
-  \fi}
-
-% thebibliography environment, for use with BibTeX
-\newcommand{\refname}{Publications}
+% thebibliography environment, for use with BibTeX and possibly multibib
+\newcommand*{\refname}{Publications}
 \newlength{\bibindent}
 \setlength{\bibindent}{1.5em}
 % bibliography item label
 \newcommand*{\bibliographyitemlabel}{}% use \@biblabel{\arabic{enumiv}} for BibTeX labels
-\newenvironment{thebibliography}[1]%
-  {%
-    \section{\refname}%
-%    \vspace*{-0.65em}%
-    \small%
-    \begin{list}{\bibliographyitemlabel}%
-      {%
-        \setlength{\topsep}{0pt}%
-        \setlength{\labelwidth}{\hintscolumnwidth}%
-        \setlength{\labelsep}{\separatorcolumnwidth}%
-        \leftmargin\labelwidth%
-        \advance\leftmargin\labelsep%
-        \@openbib@code%
-        \usecounter{enumiv}%
-        \let\p@enumiv\@empty%
-        \renewcommand\theenumiv{\@arabic\c@enumiv}}%
-        \sloppy\clubpenalty4000\widowpenalty4000%
-%        \sfcode`\.\@m%
-%        \sfcode `\=1000\relax%
-  }%
-  {%
-    \def\@noitemerr{\@latex@warning{Empty `thebibliography' environment}}%
-    \end{list}%
-  }
-\newcommand\newblock{\hskip .11em\@plus.33em\@minus.07em}
+%\newif\if@multibibfirstbib\@multibibfirstbibfalse
+% bibliography head (section, etc}, depending on whether multibib is used
+\newcommand*{\bibliographyhead}[1]{\section{#1}}
+\AtEndPreamble{\@ifpackageloaded{multibib}{\renewcommand*{\bibliographyhead}[1]{\subsection{#1}}}{}}
+% thebibliography environment definition
+\newenvironment{thebibliography}[1]{}{}
+\newcommand*{\newblock}{\hskip .11em\@plus.33em\@minus.07em}
 \let\@openbib@code\@empty
 
-% the classical \today definition
+% itemize, enumerate and description environment
+\setlength{\leftmargini}   {1em}
+\leftmargin\leftmargini
+\setlength{\leftmarginii}  {\leftmargini}
+\setlength{\leftmarginiii} {\leftmargini}
+\setlength{\leftmarginiv}  {\leftmargini}
+\setlength{\leftmarginv}   {\leftmargini}
+\setlength{\leftmarginvi}  {\leftmargini}
+\setlength{\labelsep}      {.5em}% this is the distance between the label and the body, but it pushes the label to the left rather than pushing the body to the right (to do the latter, modify \leftmargin(i)
+\setlength{\labelwidth}    {\leftmargini}% unfortunately, \labelwidth is not defined by item level (i.e. no \labeliwidth, \labeliiwidth, etc)
+\addtolength{\labelwidth}  {-\labelsep}
+\@beginparpenalty -\@lowpenalty
+\@endparpenalty   -\@lowpenalty
+\@itempenalty     -\@lowpenalty
+\newcommand\labelenumi{\theenumi.}
+\newcommand\labelenumii{(\theenumii)}
+\newcommand\labelenumiii{\theenumiii.}
+\newcommand\labelenumiv{\theenumiv.}
+\renewcommand\p@enumii{\theenumi}
+\renewcommand\p@enumiii{\p@enumii(\theenumii)}
+\renewcommand\p@enumiv{\p@enumiii\theenumiii}
+% description label
+\newcommand*\descriptionlabel[1]{\hspace\labelsep\normalfont\bfseries#1}
+% hooks to adjust spacing (idea by Jakob Schiøtz; see http://dcwww.camd.dtu.dk/~schiotz/comp/LatexTips/tweaklist.sty)
+\RequirePackage{moderncv/tweaklist}% distributed with moderncv, not found on ctan and slightly modified
+\renewcommand*{\itemhook}{
+  \setlength{\topsep}{0pt}%
+  \setlength{\parsep}{0pt}%
+  \setlength{\parskip}{0pt}%
+  \setlength{\itemsep}{0pt}}
+\renewcommand*{\enumhook}{\itemhook{}}
+\renewcommand*{\deschook}{\itemhook{}}
+
+% classical \today definition
 \def\today{\ifcase\month\or
   January\or February\or March\or April\or May\or June\or
   July\or August\or September\or October\or November\or December\fi
   \space\number\day, \number\year}
+
+%\newcommand{\widthofautobox}[1]{%
+%  \widthof{\begin{tabular}{@{}l@{}}#1\end{tabular}}}
+
+%\newcommand{\autobox}[2][b]{%
+%  \parbox[#1]{\widthofautobox{#2}}{#2}}
+
+
+%-------------------------------------------------------------------------------
+%                letter design commands definitions
+%-------------------------------------------------------------------------------
+% elements
+\newcommand*{\recipient}[2]{\def\@recipientname{#1}\def\@recipientaddress{#2}}
+\renewcommand*{\date}[1]{\def\@date{#1}}
+\newcommand*{\opening}[1]{\def\@opening{#1}}
+\newcommand*{\closing}[1]{\def\@closing{#1}}
+\newcommand*{\enclosure}[1]{\def\@enclosure{#1}}
+
+% recompute all letter lengths
+\newcommand*{\recomputeletterlengths}{}
+
+% makes the letter title
+% usage: \makelettertitle
+\newcommand*{\makelettertitle}{}%
+
+% makes the letter footer
+% usage: \makeletterfooter
+\newcommand*{\makeletterfooter}{\makefooter}%
+
+% makes the letter closing
+% usage: \makeletterclosing
+\newcommand*{\makeletterclosing}{}%
 
 
 \endinput
