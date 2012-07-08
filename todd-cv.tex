@@ -5,7 +5,7 @@
 %----------------------------------------------------------------------------------
 % moderncv Setup
 %----------------------------------------------------------------------------------
-\moderncvstyle{casual}                       % style options are 'casual' (default), 'classic', 'oldstyle' and 'banking'
+\moderncvstyle{classic}                      % style options are 'casual' (default), 'classic', 'oldstyle' and 'banking'
 \moderncvcolor{blue}                         % color options 'blue' (default), 'orange', 'green', 'red', 'purple', 'grey' and 'black'
 \usepackage[utf8]{inputenc}                  % replace by the encoding you are using
 %\renewcommand{\familydefault}{\sfdefault}   % to set the default font; use '\sfdefault' for the default sans serif font, '\rmdefault' for the default roman one, or any tex font name
@@ -23,7 +23,8 @@
 % Set up hyperref custom link colors.
 %----------------------------------------------------------------------------------
 \usepackage{hyperref}
-\definecolor{mylinkcolor}{rgb}{0.15,0.3,0.48}
+\usepackage{xcolor}                          % Use xcolor so I can steal colors from moderncv
+\colorlet{mylinkcolor}{color1!80!black}      % Links are slightly darker than color1
 \hypersetup{
     colorlinks=true,%
     citecolor=black,%
@@ -64,8 +65,8 @@
 % NOTE: this is a little nasty; numbers need to be updated every time the pubs change.
 \makeatletter
 \renewcommand{\bibliographyitemlabel}{
-	\ifthenelse{\value{enumiv}=38\or%
-				\value{enumiv}=48}{\color{color1}\textbf{Best Poster} \color{black}}{}
+	\ifthenelse{\value{enumiv}=39\or%
+				\value{enumiv}=49}{\color{color1}\textbf{Best Poster} \color{black}}{}
 	{\@biblabel{\arabic{enumiv}}}%
 }
 \makeatother
