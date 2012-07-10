@@ -1,11 +1,11 @@
-%!TEX TS-program = multibib 
+%!TEX TS-program = multibib
 \documentclass[10pt,letterpaper]{moderncv/moderncv}
 \usepackage{wrapfig}
 
 %----------------------------------------------------------------------------------
 % moderncv Setup
 %----------------------------------------------------------------------------------
-\moderncvstyle{casual}                       % style options are 'casual' (default), 'classic', 'oldstyle' and 'banking'
+\moderncvstyle{classic}                      % style options are 'casual' (default), 'classic', 'oldstyle' and 'banking'
 \moderncvcolor{blue}                         % color options 'blue' (default), 'orange', 'green', 'red', 'purple', 'grey' and 'black'
 \usepackage[utf8]{inputenc}                  % replace by the encoding you are using
 %\renewcommand{\familydefault}{\sfdefault}   % to set the default font; use '\sfdefault' for the default sans serif font, '\rmdefault' for the default roman one, or any tex font name
@@ -16,7 +16,7 @@
 %----------------------------------------------------------------------------------
 % Geometry and margins.
 %----------------------------------------------------------------------------------
-\usepackage[scale=0.8]{geometry}
+\usepackage[scale=0.8,top=1in,bottom=.75in]{geometry}
 \setlength{\hintscolumnwidth}{2.8cm}						 % if you want to change the width of the column with the dates
 %\AtBeginDocument{\setlength{\maketitlenamewidth}{6cm}}  % only for the classic theme, - to change width of name placeholder (to leave more space for your address details)
 \AtBeginDocument{\recomputelengths}                      % required when changes are made to page layout lengths
@@ -25,7 +25,8 @@
 % Set up hyperref custom link colors.
 %----------------------------------------------------------------------------------
 \usepackage{hyperref}
-\definecolor{mylinkcolor}{rgb}{0.15,0.3,0.48}
+\usepackage{xcolor}                          % Use xcolor so I can steal colors from moderncv
+\colorlet{mylinkcolor}{color1!80!black}      % Links are slightly darker than color1
 \hypersetup{
     colorlinks=true,%
     citecolor=black,%
@@ -54,20 +55,20 @@
 
 %----------------------------------------------------------------------------------
 % Custom commands.
-%---------------------------------------------------------------------------------- 
-% command and color used in this document, independently from moderncv 
+%----------------------------------------------------------------------------------
+% command and color used in this document, independently from moderncv
 \definecolor{see}{rgb}{0.5,0.5,0.5}% for web links
 \newcommand{\see}[1]{\hfill{\itshape\color{see}\footnotesize{}see #1}}
 
 %----------------------------------------------------------------------------------
 % Bibliography Customizations.
-%---------------------------------------------------------------------------------- 
+%----------------------------------------------------------------------------------
 % Put labels next to best posters, based on bibliography order.
 % NOTE: this is a little nasty; numbers need to be updated every time the pubs change.
 \makeatletter
 \renewcommand{\bibliographyitemlabel}{
-	\ifthenelse{\value{enumiv}=34\or%
-				\value{enumiv}=44}{\color{color1}\textbf{Best Poster} \color{black}}{}
+	\ifthenelse{\value{enumiv}=40\or%
+				\value{enumiv}=50}{\color{color1}\textbf{Best Poster} \color{black}}{}
 	{\@biblabel{\arabic{enumiv}}}%
 }
 \makeatother
@@ -127,12 +128,12 @@
 
 	\nocitePhD{*}
 	\bibliographystylePhD{plain-url-inline-revchron}
-	\bibliographyPhD{Bibliographies/PhD}	
+	\bibliographyPhD{Bibliographies/PhD}
 
 	\nocitePoster{*}
 	\bibliographystylePoster{plain-url-inline-revchron}
 	\bibliographyPoster{Bibliographies/Posters}
-	
+
 	% Restore subsection command in case something happens after here.
 	\let\subsection\oldsubsection
 \end{document}
