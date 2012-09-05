@@ -1,7 +1,7 @@
 # -*- ruby -*-
 
 require 'Set'
-web_dest = 'snapper.cs.unc.edu:www/cv'
+web_dest = 'login.cs.unc.edu:www/cv'
 
 # Recursively get all dependences of a tex file, return them as a set of file names.
 def get_deps(texfile, deps = Set.new(texfile))
