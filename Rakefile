@@ -54,25 +54,28 @@ def build_pdf(name)
   end
 end
 
-# various filename variables
-name="todd-cv"
-pdffile = "#{name}.pdf"
-texfile = "#{name}.tex"
-
+# === Tasks ===============================
 task :default => :cv
 
 # Main cv target
 task :cv do
-  build_pdf(name)
+  build_pdf("todd-cv")
 end
 
+# Upload to UNC
 task :upload => :cv do
-  system("scp #{pdffile} #{web_dest}")
+  system("scp todd-cv.pdf #{web_dest}")
 end
+
+# grant cv target
+task :grant do
+  build_pdf("grant-cv")
+end
+
 
 # Clean everything up
 task :clean do
-  files = [pdffile]
+  files = ["todd-cv.pdf", "grant-cv.pdf"]
   files.unshift Dir.glob(%w(*.aux *.bbl *.blg *.log *.out *synctex.gz*))
 	FileUtils.rm_f(files)
 end
