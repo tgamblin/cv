@@ -25,7 +25,7 @@ def build_pdf(name)
   texfile = "#{name}.tex"
   pdffile = "#{name}.pdf"
 
-  unless get_deps(texfile).map { |file| FileUtils.uptodate?(pdffile, file) }.all?
+  unless get_deps(texfile).map { |file| uptodate?(pdffile, [file]) }.all?
     system("pdflatex #{texfile}")
   end
 
@@ -34,15 +34,15 @@ def build_pdf(name)
   bibnames = bibnamestring.split(',')
 
   bibfiles = bibnames.map do |name|
-    bibfiles = File.open(texfile).grep(/\\bibliography#{name}\{(.*)\}/) do |file|
+    File.open(texfile).grep(/\\bibliography#{name}\{(.*)\}/) do |file|
       "#{$1}.bib"
-    end
+    end.first
   end
 
   bibbed = false
   bibnames.zip(bibfiles).each do |name, bibfile|
     bblfile = "#{name}.bbl"
-    unless uptodate?(bblfile, bibfile) and uptodate?(pdffile, bblfile)
+    unless uptodate?(bblfile, [bibfile]) and uptodate?(pdffile, [bblfile])
       system("bibtex #{name}")
       bibbed = true
     end
