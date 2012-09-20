@@ -4,7 +4,7 @@ require 'Set'
 web_dest = 'login.cs.unc.edu:www/cv'
 
 # Recursively get all dependences of a tex file, return them as a set of file names.
-def get_deps(texfile, deps = Set.new(texfile))
+def get_deps(texfile, deps = Set.new([texfile]))
   basenames = File.open(texfile).grep(/\\(include|input)\{([^}]+)\}/) { |x| $2 }
   depfiles = basenames.map do |name|
     if name =~ /\.tex$/ then name else name + ".tex" end
