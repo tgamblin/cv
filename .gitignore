@@ -4,4 +4,6 @@
 *.blg
 *.log
 *.out
+*.synctex.gz
 todd-cv.pdf
+grant-cv.pdf

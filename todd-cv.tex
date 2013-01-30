@@ -61,15 +61,19 @@
 % Line break if allowed by environment, otherwise comma
 \newcommand{\br}{\ifinner, \else\\\fi}
 
+% Link to github projects
+\newcommand{\github}[1]{\href{https://github.com/tgamblin/#1}{#1}}
+
 %----------------------------------------------------------------------------------
 % Bibliography Customizations.
 %----------------------------------------------------------------------------------
 % Put labels next to best posters, based on bibliography order.
 % NOTE: this is a little nasty; numbers need to be updated every time the pubs change.
 \makeatletter
+%\def\@bibitem#1{\item\if@filesw \immediate\write\@auxout {\string\bibcite{#1}{\the\value{\@listctr}}}\fi\ignorespaces}
 \renewcommand{\bibliographyitemlabel}{
-	\ifthenelse{\value{enumiv}=43\or%
-				\value{enumiv}=53}{\color{color1}\textbf{Best Poster} \color{black}}{}
+	\ifthenelse{\value{enumiv}=45\or%
+				\value{enumiv}=55}{\color{color1}\textbf{Best Poster} \color{black}}{}
 	{\@biblabel{\arabic{enumiv}}}%
 }
 \makeatother
