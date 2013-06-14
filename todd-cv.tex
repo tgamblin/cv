@@ -70,10 +70,22 @@
 % Put labels next to best posters, based on bibliography order.
 % NOTE: this is a little nasty; numbers need to be updated every time the pubs change.
 \makeatletter
-%\def\@bibitem#1{\item\if@filesw \immediate\write\@auxout {\string\bibcite{#1}{\the\value{\@listctr}}}\fi\ignorespaces}
+% Redefine \bibitem so that it makes the key available to \bibliographyitemlabel as \mykey
+\def\@bibitem#1{%
+	\def\mykey{#1}%
+	\item\if@filesw\immediate\write\@auxout {\string\bibcite{#1}%
+	{\the\value{\@listctr}}}\fi\ignorespaces}
+
+% Use this to annotate award citations, e.g. \citenote{<cite key>}{Best Paper}
+\newcommand{\citenote}[2]{%
+	\ifdefstring{\mykey}{#1}{%
+	\color{color1}\textbf{#2} \color{black}}{}}
+
+% Use \mykey here to put labels next to papers with awards.
 \renewcommand{\bibliographyitemlabel}{
-	\ifthenelse{\value{enumiv}=45\or%
-				\value{enumiv}=55}{\color{color1}\textbf{Best Poster} \color{black}}{}
+	\citenote{gamblin+:lacsi06p}{Best Poster}%
+	\citenote{gamblin+:llnl10p}{Best Poster}%
+	\citenote{frings+:ics13}{Best Paper}%
 	{\@biblabel{\arabic{enumiv}}}%
 }
 \makeatother
@@ -89,7 +101,7 @@
 \newcommand{\workshopSecTitle}{\bibsectiontitleformat{Workshop Papers \& Technical Reports}}
 \newcommand{\bookSecTitle}    {\bibsectiontitleformat{Book Chapters \& Articles}}
 \newcommand{\phdSecTitle}     {\bibsectiontitleformat{Ph.D. Dissertation}}
-\newcommand{\posterSecTitle}  {\bibsectiontitleformat{Posters \& Presentations}}
+\newcommand{\posterSecTitle}  {\bibsectiontitleformat{Posters \& Presentations}}	
 \newcites{Paper,Workshop,Book,PhD,Poster}{
 	\paperSecTitle,\workshopSecTitle,\bookSecTitle,\phdSecTitle,\posterSecTitle}
 
