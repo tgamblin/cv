@@ -1,0 +1,118 @@
+%!TEX TS-program = multibib
+\documentclass[10pt,letterpaper]{moderncv/moderncv}
+\usepackage{wrapfig}
+
+%----------------------------------------------------------------------------------
+% moderncv Setup
+%----------------------------------------------------------------------------------
+\moderncvstyle{classic}                      % style options are 'casual' (default), 'classic', 'oldstyle' and 'banking'
+\moderncvcolor{blue}                        % color options 'blue' (default), 'orange', 'green', 'red', 'purple', 'grey' and 'black'
+\usepackage[utf8]{inputenc}                  % replace by the encoding you are using
+%\renewcommand{\familydefault}{\sfdefault}   % to set the default font; use '\sfdefault' for the default sans serif font, '\rmdefault' for the default roman one, or any tex font name
+\nopagenumbers{}                             % uncomment to suppress automatic page numbering for CVs longer than one page
+
+%----------------------------------------------------------------------------------
+% Geometry and margins.
+%----------------------------------------------------------------------------------
+\usepackage[scale=0.8,top=1in,bottom=.75in]{geometry}
+\setlength{\hintscolumnwidth}{2.8cm}						 % if you want to change the width of the column with the dates
+%\AtBeginDocument{\setlength{\maketitlenamewidth}{6cm}}  % only for the classic theme, - to change width of name placeholder (to leave more space for your address details)
+\AtBeginDocument{\recomputelengths}                      % required when changes are made to page layout lengths
+
+%----------------------------------------------------------------------------------
+% Set up hyperref custom link colors.
+%----------------------------------------------------------------------------------
+\usepackage{hyperref}
+\usepackage{xcolor}                          % Use xcolor so I can steal colors from moderncv
+\colorlet{mylinkcolor}{color1!80!black}      % Links are slightly darker than color1
+\hypersetup{
+    colorlinks=true,%
+    citecolor=black,%
+    filecolor=black,%
+    linkcolor=mylinkcolor,%
+    urlcolor=mylinkcolor,%
+    pdfborder=0 0 0%
+}
+\urlstyle{sf}    % Make URLs match rest of text.
+
+%----------------------------------------------------------------------------------
+% Personal data.
+%----------------------------------------------------------------------------------
+\firstname{Todd}
+\familyname{Gamblin}
+%\title{Resumé title (optional)}                       % optional
+\address{P.O. Box 808, L-557}{Livermore, CA, 94551}    % optional
+%\phone{919.360.8283}                                  % optional
+\phone{925-422-9319}                                   % optional
+%\fax{fax (optional)}                                  % optional
+%\email{tgamblin@gmail.com}                            % optional
+\email{tgamblin@llnl.gov }                             % optional
+\extrainfo{\href{http://people.llnl.gov/gamblin2}{\url{http://people.llnl.gov/gamblin2}}}
+%\quote{Some quote (optional)}                         % optional
+%\photo[64pt]{picture}                                 % optional, '64pt' is the height the picture must be resized to and
+                                                       %'picture' is the name of the picture file
+
+%----------------------------------------------------------------------------------
+% Custom commands.
+%----------------------------------------------------------------------------------
+% command and color used in this document, independently from moderncv
+\definecolor{see}{rgb}{0.5,0.5,0.5}% for web links
+\newcommand{\see}[1]{\hfill{\itshape\color{see}\footnotesize{}see #1}}
+
+% Line break if allowed by environment, otherwise comma
+\newcommand{\br}{\ifinner, \else\\\fi}
+
+% Bibliography section formatting
+\newlength{\bibliographysectionspacing}            % Spacing before all sections but the first
+\setlength{\bibliographysectionspacing}{.15in}
+\newcommand{\bibsectiontitleformat}[1]{#1}         % Additional formatting for each section title
+
+% Multiple Bibliographies and their titles.
+\usepackage{multibib}
+\newcommand{\relatedSecTitle}{\bibsectiontitleformat{-- Five Closely Related Publications --}}
+\newcommand{\otherSecTitle}  {\bibsectiontitleformat{-- Other Significant Publications --}}
+\newcites{Related,Other}{\relatedSecTitle,\otherSecTitle}
+
+
+%----------------------------------------------------------------------------------
+%            Top
+%----------------------------------------------------------------------------------
+\begin{document}
+\maketitle
+\vspace{-3em}    % Omit if quote is included
+
+\input{Sections/professional-preparation}
+\input{Sections/appointments}
+\input{Sections/professional-activities}
+\input{Sections/awards}
+\input{Sections/research-interests}
+
+%----------------------------------------------------------------------------------
+%            Publications
+%----------------------------------------------------------------------------------
+\section{Selected Publications}
+	\nociteRelated{jain+:sc13,laguna+:pact12,laguna+:sc11,gamblin+:ics10,gamblin+:ipdps08}
+	\bibliographystyleRelated{plain-url-inline-revchron}
+	\bibliographyRelated{Bibliographies/Papers} 
+	
+	\nociteOther{frings+:ics13,bhatele+:sc12-rubik,bhatele+:sc12-samrai,gamblin+:sc08,pearce+:ics12}
+	\bibliographystyleOther{plain-url-inline-revchron}
+	\bibliographyOther{Bibliographies/Papers}
+
+	% Restore subsection command in case something happens after here.
+	\let\subsection\oldsubsection
+	
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+

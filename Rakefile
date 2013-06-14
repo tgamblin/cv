@@ -57,23 +57,25 @@ end
 # === Tasks ===============================
 task :default => :cv
 
-# Main cv target
+# --- CV targets --------------------------
 task :cv do
   build_pdf("todd-cv")
 end
 
-# Upload to UNC
-task :upload => :cv do
-  system("scp todd-cv.pdf #{web_dest}")
-end
-
-# grant cv target
 task :grant do
   build_pdf("grant-cv")
 end
 
+task :ldrd do
+  build_pdf("ldrd-cv")
+end
 
-# Clean everything up
+# --- Upload to UNC -----------------------
+task :upload => :cv do
+  system("scp todd-cv.pdf #{web_dest}")
+end
+
+# --- Cleanup -----------------------------
 task :clean do
   files = ["todd-cv.pdf", "grant-cv.pdf"]
   files.unshift Dir.glob(%w(*.aux *.bbl *.blg *.log *.out *synctex.gz*))
