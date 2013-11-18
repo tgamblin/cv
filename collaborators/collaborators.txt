@@ -10,6 +10,7 @@ B. Bihari, LLNL
 S. Biswas, LLNL
 D. Boehme, RWTH Aachen
 A. Bose, WSU
+T. Bremer, LLNL
 G. Bronevetsky, LLNL
 L. Carrington, SDSC
 D. Chavarr, PNNL
@@ -30,6 +31,7 @@ W. Gropp, Illinois
 J. Gunnels, IBM
 J. Gyllenhaal, LLNL
 B. Hachfeld, Krell
+B. Hamann, UC Davis
 M. Hall, Utah
 R. Hedges, LLNL
 T. Hilbrich, TU Dresden
@@ -56,6 +58,7 @@ F. Mueller, NCSU
 M. Mueller, TU Dresden
 B. Norris, ANL
 L. Oliker, LBL
+V. Pascucci, Utah
 O. Pearce, LLNL
 A. Pinar, SNL
 A. Porterfield, RENCI
