@@ -1,11 +1,11 @@
-\documentclass[10pt,letterpaper]{moderncv/moderncv}
+\documentclass[11pt,letterpaper]{moderncv/moderncv}
 \usepackage{wrapfig}
 
 %----------------------------------------------------------------------------------
 % moderncv Setup
 %----------------------------------------------------------------------------------
 \moderncvstyle{classic}                      % style options are 'casual' (default), 'classic', 'oldstyle' and 'banking'
-\moderncvcolor{grey}                        % color options 'blue' (default), 'orange', 'green', 'red', 'purple', 'grey' and 'black'
+\moderncvcolor{blue}                        % color options 'blue' (default), 'orange', 'green', 'red', 'purple', 'grey' and 'black'
 \usepackage[utf8]{inputenc}                  % replace by the encoding you are using
 %\renewcommand{\familydefault}{\sfdefault}   % to set the default font; use '\sfdefault' for the default sans serif font, '\rmdefault' for the default roman one, or any tex font name
 \nopagenumbers{}                             % uncomment to suppress automatic page numbering for CVs longer than one page
@@ -39,7 +39,7 @@
 %----------------------------------------------------------------------------------
 \firstname{Todd}
 \familyname{Gamblin}
-%\title{Resumé title (optional)}                       % optional
+\title{Appendix A: Biographical Sketch}                       % optional
 \address{P.O. Box 808, L-557}{Livermore, CA, 94551}    % optional
 %\phone{919.360.8283}                                  % optional
 \phone{925-422-9319}                                   % optional
@@ -67,10 +67,23 @@
 % Put labels next to best posters, based on bibliography order.
 % NOTE: this is a little nasty; numbers need to be updated every time the pubs change.
 \makeatletter
+% Redefine \bibitem so that it makes the key available to \bibliographyitemlabel as \mykey
+\def\@bibitem#1{%
+	\def\mykey{#1}%
+	\item\if@filesw\immediate\write\@auxout {\string\bibcite{#1}%
+	{\the\value{\@listctr}}}\fi\ignorespaces}
+
+% Use this to annotate award citations, e.g. \citenote{<cite key>}{Best Paper}
+\newcommand{\citenote}[2]{%
+	\ifdefstring{\mykey}{#1}{%
+	\color{color1}\textbf{#2} \color{black}}{}}
+
+% Use \mykey here to put labels next to papers with awards.
 \renewcommand{\bibliographyitemlabel}{
-	\ifthenelse{\value{enumiv}=43\or%
-				\value{enumiv}=53}{\color{color1}\textbf{Best Poster} \color{black}}{}
-	{\@biblabel{\arabic{enumiv}}}~%
+	\citenote{gamblin+:lacsi06p}{Best Poster}%
+	\citenote{gamblin+:llnl10p}{Best Poster}%
+	\citenote{frings+:ics13}{Best Paper}%
+	{\@biblabel{\arabic{enumiv}}}%
 }
 \makeatother
 
@@ -97,12 +110,9 @@
 \maketitle
 \vspace{-3em}    % Omit if quote is included
 
-\input{Sections/research-interests}
-\input{Sections/education}
+%\input{Sections/research-interests}
+\input{Sections/professional-preparation}
 \input{Sections/short-experience}
-\input{Sections/professional-activities}
-\input{Sections/awards}
-%\input{Sections/software}
 
 %----------------------------------------------------------------------------------
 %            Publications
@@ -110,12 +120,20 @@
 \section{Selected Publications}
 
 \small{
-	\nocite{laguna+:pact12,sato+:sc12,bhatele+:sc12-samrai,bhatele+:sc12-rubik,landge+:infovis12,pearce+:ics12,laguna+:sc11,szebenyi+:ipdps11,gamblin+:ics10,gamblin+:sc08}
+	\nocite{jain+:sc13,frings+:ics13,laguna+:pact12,bhatele+:sc12-samrai,bhatele+:sc12-rubik,
+	pearce+:ics12,laguna+:sc11,gamblin+:ics10,gamblin+:sc08,gamblin+:ipdps08}
 	\bibliographystyle{plain-url-inline-revchron}
 	\bibliography{Bibliographies/Papers}
 }
 	% Restore subsection command in case something happens after here.
 	\let\subsection\oldsubsection
+	
+	
+\input{Sections/synergistic-activities}
+\input{Sections/awards}
+\input{Sections/grants}
+%\input{Sections/software}
+
 	
 \input{Sections/collaborators}
 
