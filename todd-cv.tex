@@ -24,13 +24,13 @@
 %----------------------------------------------------------------------------------
 \usepackage{hyperref}
 \usepackage{xcolor}                          % Use xcolor so I can steal colors from moderncv
-\colorlet{mylinkcolor}{color1!80!black}      % Links are slightly darker than color1
+\colorlet{mylinkcolor}{color1!70!black}      % Links are slightly darker than color1
 \hypersetup{
     colorlinks=true,%
     citecolor=black,%
     filecolor=black,%
     linkcolor=mylinkcolor,%
-    urlcolor=mylinkcolor,%
+    urlcolor=black,%
     pdfborder=0 0 0%
 }
 \urlstyle{sf}    % Make URLs match rest of text.
@@ -40,12 +40,18 @@
 %----------------------------------------------------------------------------------
 \firstname{Todd}
 \familyname{Gamblin}
-%\title{Resumé title (optional)}                       % optional
+\title{\normalsize
+	Computer Scientist, 
+%	Computer Science Group,
+	Center for Applied Scientific Computing\newline
+%	Computation Directorate\newline
+	Lawrence Livermore National Laboratory
+}                       % optional
 \address{P.O. Box 808, L-557}{Livermore, CA, 94551}    % optional
 \phone{919.360.8283}                                   % optional
 %\phone{925-422-9319}                                  % optional
 %\fax{fax (optional)}                                  % optional
-\email{tgamblin@gmail.com}                             % optional
+\email{tgamblin@llnl.gov}                              % optional
 \extrainfo{\href{http://people.llnl.gov/gamblin2}{\url{http://people.llnl.gov/gamblin2}}}
 %\quote{Some quote (optional)}                         % optional
 %\photo[64pt]{picture}                                 % optional, '64pt' is the height the picture must be resized to and
@@ -97,7 +103,7 @@
 
 % Multiple Bibliographies and their titles.
 \usepackage{multibib}
-\newcommand{\paperSecTitle}   {\bibsectiontitleformat{Conference \& Journal Papers}}
+\newcommand{\paperSecTitle}   {\bibsectiontitleformat{Peer Reviewed Conference \& Journal Papers}}
 \newcommand{\workshopSecTitle}{\bibsectiontitleformat{Workshop Papers \& Technical Reports}}
 \newcommand{\bookSecTitle}    {\bibsectiontitleformat{Special Issues, Book Chapters, Articles}}
 \newcommand{\phdSecTitle}     {\bibsectiontitleformat{Ph.D. Dissertation}}
@@ -105,6 +111,10 @@
 \newcites{Paper,Workshop,Book,PhD,Poster}{
 	\paperSecTitle,\workshopSecTitle,\bookSecTitle,\phdSecTitle,\posterSecTitle}
 
+% Custom cventry formatting
+\let\oldcventry\cventry
+\renewcommand{\cventry}[6]%
+	{\oldcventry{#1}{#2}{\color{mylinkcolor}{#3}}{#4}{#5}{#6}}
 
 %----------------------------------------------------------------------------------
 %            Top
@@ -117,12 +127,17 @@
 \input{Sections/awards}
 \input{Sections/research-experience}
 \input{Sections/professional-experience}
-\input{Sections/teaching}
-\input{Sections/professional-activities}
+
+\input{Sections/grants}
+\input{Sections/time-allocations}
+\input{Sections/professional-activities-long}
+%\input{Sections/teaching}
 %\input{Sections/university-activities}
 \input{Sections/skills}
 \input{Sections/software}
-\input{Sections/grants}
+
+\input{Sections/invited-talks}
+
 
 %----------------------------------------------------------------------------------
 %            Publications

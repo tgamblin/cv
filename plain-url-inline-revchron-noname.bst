@@ -332,10 +332,10 @@ FUNCTION {format.names}
     { s nameptr "{ff~}{vv~}{ll}{, jj}" format.name$ 't :=
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 % This highlights my name in bold if I'm an author
-      t "Todd Gamblin" =
-      	{"\textbf{{\color{mylinkcolor}Todd Gamblin}}" 't :=}
-	{}
-      if$
+%      t "Todd Gamblin" =
+%      	{"\textbf{{\color{mylinkcolor}Todd Gamblin}}" 't :=}
+%	{}
+%      if$
 %%%%%%%%%%%%%%%%%%%%%%%%%%
       nameptr #1 >
 	{ namesleft #1 >
@@ -836,7 +836,7 @@ FUNCTION {webpage}
   % reason we would want to put them here is if we were to decide that
   % they should go in front of the rather miscellaneous information in 'note'.
   new.block
-  note output
+%  note output
   fin.entry
 }
 % ...urlbst to here
@@ -859,7 +859,7 @@ FUNCTION {article}
     }
   if$
   new.block
-  note output
+%  note output
   acceptancerate outputrate
   fin.entry
 }
@@ -893,7 +893,7 @@ FUNCTION {book}
   format.edition output
   format.date "year" output.check
   new.block
-  note output
+%  note output
   fin.entry
 }
 
@@ -908,7 +908,7 @@ FUNCTION {booklet}
   address output
   format.date output
   new.block
-  note output
+%  note output
   fin.entry
 }
 
@@ -943,7 +943,7 @@ FUNCTION {inbook}
   format.edition output
   format.date "year" output.check
   new.block
-  note output
+%  note output
   fin.entry
 }
 
@@ -970,7 +970,7 @@ FUNCTION {incollection}
     }
   if$
   new.block
-  note output
+%  note output
   fin.entry
 }
 
@@ -1005,7 +1005,7 @@ FUNCTION {inproceedings}
     }
   if$
   new.block
-  note output
+%  note output
   acceptancerate outputrate
   fin.entry
 }
@@ -1043,7 +1043,7 @@ FUNCTION {manual}
   format.edition output
   format.date output
   new.block
-  note output
+%  note output
   fin.entry
 }
 
@@ -1059,7 +1059,7 @@ FUNCTION {mastersthesis}
   address output
   format.date "year" output.check
   new.block
-  note output
+%  note output
   fin.entry
 }
 
@@ -1073,7 +1073,7 @@ FUNCTION {misc}
   howpublished output
   format.date output
   new.block
-  note output
+%  note output
   fin.entry
   empty.misc.check
 }
@@ -1090,7 +1090,7 @@ FUNCTION {phdthesis}
   address output
   format.date "year" output.check
   new.block
-  note output
+%  note output
   fin.entry
 }
 
@@ -1126,7 +1126,7 @@ FUNCTION {proceedings}
     }
   if$
   new.block
-  note output
+%  note output
   fin.entry
 }
 
@@ -1142,7 +1142,7 @@ FUNCTION {techreport}
   address output
   format.date "year" output.check
   new.block
-  note output
+%  note output
   fin.entry
 }
 

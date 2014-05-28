@@ -1,4 +1,4 @@
-\documentclass[11pt,letterpaper]{moderncv/moderncv}
+\documentclass[10pt,letterpaper]{moderncv/moderncv}
 \usepackage{wrapfig}
 
 %----------------------------------------------------------------------------------
@@ -23,7 +23,7 @@
 %----------------------------------------------------------------------------------
 \usepackage{hyperref}
 \usepackage{xcolor}                          % Use xcolor so I can steal colors from moderncv
-\colorlet{mylinkcolor}{color1!80!black}      % Links are slightly darker than color1
+\colorlet{mylinkcolor}{color1!70!black}      % Links are slightly darker than color1
 \hypersetup{
     colorlinks=true,%
     citecolor=black,%
@@ -39,7 +39,9 @@
 %----------------------------------------------------------------------------------
 \firstname{Todd}
 \familyname{Gamblin}
-\title{Appendix A: Biographical Sketch}                       % optional
+\title{\normalsize
+Center for Applied Scientific Computing,\newline
+Lawrence Livermore National Laboratory}                       % optional
 \address{P.O. Box 808, L-557}{Livermore, CA, 94551}    % optional
 %\phone{919.360.8283}                                  % optional
 \phone{925-422-9319}                                   % optional
@@ -112,30 +114,30 @@
 
 %\input{Sections/research-interests}
 \input{Sections/professional-preparation}
-\input{Sections/short-experience}
+\input{Sections/short-experience}	
+\input{Sections/synergistic-activities}
+\input{Sections/awards}
+\input{Sections/invited-talks}
 
 %----------------------------------------------------------------------------------
 %            Publications
 %----------------------------------------------------------------------------------
 \section{Selected Publications}
-
+	\let\oldsubsection\subsection
+	\renewcommand{\subsection}[1]{}
+	
 \small{
-	\nocite{jain+:sc13,frings+:ics13,laguna+:pact12,bhatele+:sc12-samrai,bhatele+:sc12-rubik,
-	pearce+:ics12,laguna+:sc11,gamblin+:ics10,gamblin+:sc08,gamblin+:ipdps08}
+	\nocite{sato+:ccgrid14,sato+:ipdps14,mitra+:pldi14,laguna+:tpds14,frings+:ics13,ahn+:ipdps13,rountree+:parco13,laguna+:pact12,sato+:sc12,laguna+:sc11}
 	\bibliographystyle{plain-url-inline-revchron}
 	\bibliography{Bibliographies/Papers}
 }
 	% Restore subsection command in case something happens after here.
 	\let\subsection\oldsubsection
-	
-	
-\input{Sections/synergistic-activities}
-\input{Sections/awards}
-\input{Sections/grants}
-%\input{Sections/software}
 
+%\input{Sections/grants}
+%\input{Sections/time-allocations}
 	
-\input{Sections/collaborators}
+%\input{Sections/collaborators}
 
 \end{document}
 
