@@ -75,18 +75,9 @@ Lawrence Livermore National Laboratory}                       % optional
 	\item\if@filesw\immediate\write\@auxout {\string\bibcite{#1}%
 	{\the\value{\@listctr}}}\fi\ignorespaces}
 
-% Use this to annotate award citations, e.g. \citenote{<cite key>}{Best Paper}
-\newcommand{\citenote}[2]{%
-	\ifdefstring{\mykey}{#1}{%
-	\color{color1}\textbf{#2} \color{black}}{}}
+% include notes on citations, such as best paper/poster awards
+\input{cite-notes}
 
-% Use \mykey here to put labels next to papers with awards.
-\renewcommand{\bibliographyitemlabel}{
-	\citenote{gamblin+:lacsi06p}{Best Poster}%
-	\citenote{gamblin+:llnl10p}{Best Poster}%
-	\citenote{frings+:ics13}{Best Paper}%
-	{\@biblabel{\arabic{enumiv}}}%
-}
 \makeatother
 
 % Bibliography section formatting
@@ -115,9 +106,9 @@ Lawrence Livermore National Laboratory}                       % optional
 %\input{Sections/research-interests}
 \input{Sections/professional-preparation}
 \input{Sections/short-experience}	
-\input{Sections/synergistic-activities}
 \input{Sections/awards}
-\input{Sections/invited-talks}
+\input{Sections/synergistic-activities}
+%\input{Sections/invited-talks}
 
 %----------------------------------------------------------------------------------
 %            Publications
@@ -127,7 +118,7 @@ Lawrence Livermore National Laboratory}                       % optional
 	\renewcommand{\subsection}[1]{}
 	
 \small{
-	\nocite{sato+:ccgrid14,sato+:ipdps14,mitra+:pldi14,laguna+:tpds14,frings+:ics13,ahn+:ipdps13,rountree+:parco13,laguna+:pact12,sato+:sc12,laguna+:sc11}
+	\nocite{sato+:ccgrid14,sato+:ipdps14,mitra+:pldi14,laguna+:tpds14,frings+:ics13,laguna+:pact12,sato+:sc12,laguna+:sc11,gamblin+:ics10,gamblin+:sc08}
 	\bibliographystyle{plain-url-inline-revchron}
 	\bibliography{Bibliographies/Papers}
 }
@@ -137,7 +128,7 @@ Lawrence Livermore National Laboratory}                       % optional
 %\input{Sections/grants}
 %\input{Sections/time-allocations}
 	
-%\input{Sections/collaborators}
+\input{Sections/collaborators}
 
 \end{document}
 

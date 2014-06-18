@@ -1,0 +1,13 @@
+% Use this to annotate award citations, e.g. \citenote{<cite key>}{Best Paper}
+\newcommand{\citenote}[2]{%
+	\ifdefstring{\mykey}{#1}{%
+	\color{color1}\textbf{#2} \color{black}}{}}
+
+% Use \mykey here to put labels next to papers with awards.
+\renewcommand{\bibliographyitemlabel}{
+	\citenote{gamblin+:lacsi06p}{Best Poster}%
+	\citenote{gamblin+:llnl10p}{Best Poster}%
+	\citenote{frings+:ics13}{Best Paper}%
+	\citenote{sato+:ccgrid14}{Best Paper}%
+	{\@biblabel{\arabic{enumiv}}}%
+}
