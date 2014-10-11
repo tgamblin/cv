@@ -1,7 +1,9 @@
 # -*- ruby -*-
 
 require 'Set'
-web_dest = 'login.cs.unc.edu:www/cv'
+
+# Location of my webpage repo and relevant files in it.
+web_repo = '/Users/gamblin2/Sites/tgamblin.github.io'
 
 # Recursively get all dependences of a tex file, return them as a set of file names.
 def get_deps(texfile, deps = Set.new([texfile]))
@@ -70,9 +72,28 @@ task :ldrd do
   build_pdf("ldrd-cv")
 end
 
-# --- Upload to UNC -----------------------
+# --- Generate html for bibliography ----------
+task :html do
+  Dir.chdir("Bibliographies") do
+    system("./generate_html.sh")
+  end
+end
+
+# --- Upload to webpage -----------------------
 task :upload => :cv do
-  system("scp todd-cv.pdf #{web_dest}")
+  # Locations in the web repo
+  cv   = "cv/todd-cv.pdf"
+  html = "_includes/bibliography.html"
+
+  cp "Bibliographies/bibliography.html", "#{web_repo}/#{html}"
+  cp "todd-cv.pdf", "#{web_repo}/#{cv}"
+
+  Dir.chdir("#{web_repo}") do
+    system("git add #{cv}")
+    system("git add #{html}")
+    system("git commit -m 'CV update'")
+    system("git push")
+  end
 end
 
 # --- Cleanup -----------------------------
