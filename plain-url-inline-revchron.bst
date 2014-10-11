@@ -316,8 +316,8 @@ FUNCTION {emphasize}
 
 FUNCTION {outputrate}
 { duplicate$ empty$
-    { pop$ "" }
-    {"(" swap$ * " accepted)" * output }
+    'pop$
+    { "(" swap$ * " accepted)" * output }
   if$
 }
 
