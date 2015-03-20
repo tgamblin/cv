@@ -68,10 +68,6 @@ task :grant do
   build_pdf("grant-cv")
 end
 
-task :ldrd do
-  build_pdf("ldrd-cv")
-end
-
 # --- Generate html for bibliography ----------
 task :html do
   Dir.chdir("Bibliographies") do
