@@ -1,5 +1,4 @@
 # -*- ruby -*-
-
 require 'Set'
 
 # Location of my webpage repo and relevant files in it.
@@ -22,18 +21,44 @@ def get_deps(texfile, deps = Set.new([texfile]))
   return deps
 end
 
+def get_multibib_names(texfile)
+  newcites = File.open(texfile).grep(/newcites/)
+  if newcites.empty?
+    return nil
+  end
+  newcites = newcites.first
+
+  bibnamestring = newcites.scan(/\{(\w+(,\w+)*)\}/).map {|x| x[0]}.first
+  bibnames = bibnamestring.split(',')
+  return bibnames
+end
+
+
+def file_contains(filename, string)
+  lines = File.open(filename).grep(/#{string}/)
+  return (not lines.empty?)
+end
+
+
 # Get deps of a pdf and build it using pdflatex and bibtex
 def build_pdf(name)
   texfile = "#{name}.tex"
   pdffile = "#{name}.pdf"
 
   unless get_deps(texfile).map { |file| uptodate?(pdffile, [file]) }.all?
-    system("pdflatex #{texfile}")
+    system "pdflatex #{texfile}"
   end
 
-  newcites = File.open(texfile).grep(/newcites/).first
-  bibnamestring = newcites.scan(/\{(\w+(,\w+)*)\}/).map {|x| x[0]}.first
-  bibnames = bibnamestring.split(',')
+  if file_contains(texfile, "bibliography{")
+    bibnames = [name]
+  else
+    bibnames = get_multibib_names("preamble.tex")
+    if bibnames == nil
+      bibnames = [name]
+    end
+  end
+
+  puts " bibnames is #{bibnames}"
 
   bibfiles = bibnames.map do |name|
     File.open(texfile).grep(/\\bibliography#{name}\{(.*)\}/) do |file|
@@ -45,7 +70,7 @@ def build_pdf(name)
   bibnames.zip(bibfiles).each do |name, bibfile|
     bblfile = "#{name}.bbl"
     unless uptodate?(bblfile, [bibfile]) and uptodate?(pdffile, [bblfile])
-      system("bibtex #{name}")
+      system "bibtex #{name}"
       bibbed = true
     end
   end
@@ -57,14 +82,15 @@ def build_pdf(name)
 end
 
 # === Tasks ===============================
-task :default => :cv
+task :default => "todd-cv.pdf"
+task :grant   => "grant-cv.pdf"
 
 # --- CV targets --------------------------
-task :cv do
+task "todd-cv.pdf" do
   build_pdf("todd-cv")
 end
 
-task :grant do
+task "grant-cv.pdf" do
   build_pdf("grant-cv")
 end
 

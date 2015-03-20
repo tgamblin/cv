@@ -1,0 +1,144 @@
+%!TEX root = todd-cv.tex
+%
+% This is the preamble to all versions of the CV.
+%
+
+%----------------------------------------------------------------------------------
+% Conditional formatting by resume type -- all false by default.
+%----------------------------------------------------------------------------------
+\usepackage{etoolbox}
+\newtoggle{default} \togglefalse{default}
+\newtoggle{grant}   \togglefalse{grant}
+
+%----------------------------------------------------------------------------------
+% moderncv Setup
+%----------------------------------------------------------------------------------
+\moderncvstyle{classic} % options: 'casual', 'classic', 'oldstyle', 'banking'
+\moderncvcolor{blue}
+\usepackage[utf8]{inputenc}
+
+% to set the default font; use '\sfdefault' for the default sans serif
+% font, '\rmdefault' for the default roman one, or any tex font name
+\renewcommand{\familydefault}{\sfdefault}
+
+% uncomment to suppress automatic page numbering for CVs longer than
+% one page
+%\nopagenumbers{}
+
+%----------------------------------------------------------------------------------
+% Geometry and margins.
+%----------------------------------------------------------------------------------
+\usepackage[scale=0.8,top=1in,bottom=.75in]{geometry}
+
+% if you want to change the width of the column with the dates
+\setlength{\hintscolumnwidth}{2.8cm}
+
+% only for the classic theme, - to change width of name placeholder
+% (to leave more space for your address details)
+%\AtBeginDocument{\setlength{\maketitlenamewidth}{6cm}}
+
+% required when changes are made to page layout lengths
+\AtBeginDocument{\recomputelengths}
+
+%----------------------------------------------------------------------------------
+% Set up hyperref custom link colors.
+%----------------------------------------------------------------------------------
+\usepackage{hyperref}
+\usepackage{xcolor} % Use xcolor so I can steal colors from moderncv
+\colorlet{mylinkcolor}{color1!50!black}   % Links are slightly darker than color1
+\hypersetup{
+    colorlinks=true,%
+    citecolor=black,%
+    filecolor=black,%
+    linkcolor=mylinkcolor,%
+    urlcolor=mylinkcolor,%
+    pdfborder=0 0 0%
+}
+\urlstyle{sf}    % Make URLs match rest of text.
+
+%----------------------------------------------------------------------------------
+% Personal data.
+%----------------------------------------------------------------------------------
+
+\firstname{Todd}
+\familyname{Gamblin}
+\title{\normalsize
+	Computer Scientist,
+%	Computer Science Group,
+	Center for Applied Scientific Computing\newline
+%	Computation Directorate\newline
+	Lawrence Livermore National Laboratory
+}                       % optional
+\address{P.O. Box 808, L-557}{Livermore, CA, 94551}    % optional
+\phone{919.360.8283}                                   % optional
+%\phone{925-422-9319}                                  % optional
+%\fax{fax (optional)}                                  % optional
+\email{tgamblin@llnl.gov}                              % optional
+
+%\extrainfo{\href{http://people.llnl.gov/gamblin2}
+%  {\url{http://people.llnl.gov/gamblin2}}}
+\extrainfo{\href{http://tgamblin.github.io}{\url{http://tgamblin.github.io}}}
+
+%\quote{Some quote (optional)}                         % optional
+
+% optional, '64pt' is the height the picture must be resized to and
+% 'picture' is the name of the picture file
+%\photo[64pt]{picture}
+
+
+%----------------------------------------------------------------------------------
+% Custom commands.
+%----------------------------------------------------------------------------------
+% command and color used in this document, independently from moderncv
+\definecolor{see}{rgb}{0.5,0.5,0.5}% for web links
+\newcommand{\see}[1]{\hfill{\itshape\color{see}\footnotesize{}see #1}}
+
+% Line break if allowed by environment, otherwise comma
+\newcommand{\br}{\ifinner, \else\\\fi}
+
+% Link to github projects
+\newcommand{\github}[1]{\href{https://github.com/scalability-llnl/#1}{#1}}
+
+%----------------------------------------------------------------------------------
+% Bibliography Customizations.
+%----------------------------------------------------------------------------------
+% Put labels next to best posters, based on bibliography order.
+% NOTE: this is a little nasty; numbers need to be updated every time the pubs change.
+\makeatletter
+% Redefine \bibitem so that it makes the key available to \bibliographyitemlabel as \mykey
+\def\@bibitem#1{%
+	\def\mykey{#1}%
+	\item\if@filesw\immediate\write\@auxout {\string\bibcite{#1}%
+	{\the\value{\@listctr}}}\fi\ignorespaces}
+
+% include notes on citations, such as best paper/poster awards
+\input{cite-notes}
+
+\makeatother
+
+% Bibliography section formatting
+\newlength{\bibliographysectionspacing}            % Spacing before all sections but the first
+\setlength{\bibliographysectionspacing}{.15in}
+\newcommand{\bibsectiontitleformat}[1]{#1}         % Additional formatting for each section title
+
+% Multiple Bibliographies and their titles.
+\usepackage{multibib}
+
+% Custom cventry formatting
+\let\oldcventry\cventry
+\renewcommand{\cventry}[6]%
+	{\oldcventry{#1}{#2}{\color{mylinkcolor}{#3}}{#4}{#5}{#6}}
+
+\newcommand{\paperSecTitle}
+  {\bibsectiontitleformat{Peer Reviewed Conference \& Journal Papers}}
+\newcommand{\workshopSecTitle}
+  {\bibsectiontitleformat{Workshop Papers \& Technical Reports}}
+\newcommand{\bookSecTitle}
+  {\bibsectiontitleformat{Special Issues, Book Chapters, Articles}}
+\newcommand{\phdSecTitle}
+  {\bibsectiontitleformat{Ph.D. Dissertation}}
+\newcommand{\posterSecTitle}
+  {\bibsectiontitleformat{Posters \& Presentations}}
+
+\newcites{Paper,Workshop,Book,PhD,Poster}{
+	\paperSecTitle,\workshopSecTitle,\bookSecTitle,\phdSecTitle,\posterSecTitle}
