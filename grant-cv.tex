@@ -16,8 +16,10 @@
 \input{Sections/education}
 \input{Sections/short-experience}
 \input{Sections/awards}
+\input{Sections/teaching}
+%\input{Sections/professional-activities-long}
 \input{Sections/synergistic-activities}
-%\input{Sections/invited-talks}
+\input{Sections/invited-talks}
 
 %----------------------------------------------------------------------------------
 %            Publications
@@ -26,22 +28,31 @@
 	\let\oldsubsection\subsection
 	\renewcommand{\subsection}[1]{}
 
-\small{
-	\nocite{
-		bhatele+:ipdps15,
-		sato+:ccgrid14,
-		isaacs+:infovis14,
-		gimenez+:sc14,
-%		sato+:ipdps14,
-		mitra+:pldi14,
-%		laguna+:tpds14,
-		jain+:sc13,
-		frings+:ics13,
-		laguna+:pact12,
-%		sato+:sc12,
-%		laguna+:sc11,
-		gamblin+:ics10,
-		gamblin+:sc08}
+\footnotesize{
+  \nocite{
+%    pearce+:ipdps16,
+    gamblin+:sc15,
+    isaacs+:sc15,
+    gimenez+:sc14,
+    laguna+:cacm14,
+% 	bhatele+:ipdps15,
+	sato+:ccgrid14,
+%    sato+:ipdps14,
+%	isaacs+:infovis14,
+	gimenez+:sc14,
+%	sato+:ipdps14,
+%	mitra+:pldi14,
+%	laguna+:tpds14,
+	jain+:sc13,
+	frings+:ics13,
+%	laguna+:pact12,
+	sato+:sc12,
+%    bhatele+:sc12-samrai,
+    bhatele+:sc12-rubik
+%	laguna+:sc11,
+%	gamblin+:ics10,
+%	gamblin+:sc08
+  }
 	\bibliographystyle{plain-url-inline-revchron}
 	\bibliography{Bibliographies/Papers}
 }
@@ -51,6 +62,6 @@
 %\input{Sections/grants}
 %\input{Sections/time-allocations}
 
-\input{Sections/collaborators}
+%\input{Sections/collaborators}
 
 \end{document}

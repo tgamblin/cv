@@ -58,8 +58,6 @@ def build_pdf(name)
     end
   end
 
-  puts " bibnames is #{bibnames}"
-
   bibfiles = bibnames.map do |name|
     File.open(texfile).grep(/\\bibliography#{name}\{(.*)\}/) do |file|
       "#{$1}.bib"
@@ -83,6 +81,7 @@ end
 
 # === Tasks ===============================
 task :default => "todd-cv.pdf"
+task :cv => "todd-cv.pdf"
 task :grant   => "grant-cv.pdf"
 
 # --- CV targets --------------------------
