@@ -4,9 +4,9 @@
 \input{preamble}
 \toggletrue{default}
 
-%----------------------------------------------------------------------------------
-%            Top
-%----------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------
+% Top
+%-----------------------------------------------------------------------------
 \begin{document}
 \maketitle
 \vspace{-3em}    % Omit if quote is included
@@ -23,15 +23,15 @@
 %\input{Sections/teaching}
 %\input{Sections/university-activities}
 \input{Sections/skills}
+\input{Sections/research-interests}
 \input{Sections/software}
-
 \input{Sections/invited-talks}
 
 
-%----------------------------------------------------------------------------------
-%            Publications
-%----------------------------------------------------------------------------------
-\section{Publications}
+%-----------------------------------------------------------------------------
+% Publications
+%-----------------------------------------------------------------------------
+\section{Publications}\small
 	\nocitePaper{*}
 	\bibliographystylePaper{plain-url-inline-revchron}
 	\bibliographyPaper{Bibliographies/Papers}
@@ -43,6 +43,10 @@
 	\nociteWorkshop{*}
 	\bibliographystyleWorkshop{plain-url-inline-revchron}
 	\bibliographyWorkshop{Bibliographies/Workshops}
+
+    \nociteTutorial{*}
+    \bibliographystyleTutorial{plain-url-inline-revchron}
+    \bibliographyTutorial{Bibliographies/Tutorials}
 
 	\nociteBook{*}
 	\bibliographystyleBook{plain-url-inline-revchron}

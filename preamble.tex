@@ -3,16 +3,16 @@
 % This is the preamble to all versions of the CV.
 %
 
-%----------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------
 % Conditional formatting by resume type -- all false by default.
-%----------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------
 \usepackage{etoolbox}
 \newtoggle{default} \togglefalse{default}
 \newtoggle{grant}   \togglefalse{grant}
 
-%----------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------
 % moderncv Setup
-%----------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------
 \moderncvstyle{classic} % options: 'casual', 'classic', 'oldstyle', 'banking'
 \moderncvcolor{blue}
 \usepackage[utf8]{inputenc}
@@ -25,9 +25,9 @@
 % one page
 %\nopagenumbers{}
 
-%----------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------
 % Geometry and margins.
-%----------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------
 \usepackage[scale=0.8,top=1in,bottom=.75in]{geometry}
 
 % if you want to change the width of the column with the dates
@@ -40,12 +40,12 @@
 % required when changes are made to page layout lengths
 \AtBeginDocument{\recomputelengths}
 
-%----------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------
 % Set up hyperref custom link colors.
-%----------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------
 \usepackage{hyperref}
 \usepackage{xcolor} % Use xcolor so I can steal colors from moderncv
-\colorlet{mylinkcolor}{color1!50!black}   % Links are slightly darker than color1
+\colorlet{mylinkcolor}{color1!50!black} % Links are slightly darker than color1
 \hypersetup{
     colorlinks=true,%
     citecolor=black,%
@@ -56,9 +56,9 @@
 }
 \urlstyle{sf}    % Make URLs match rest of text.
 
-%----------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------
 % Personal data.
-%----------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------
 
 \firstname{Todd}
 \familyname{Gamblin}
@@ -86,9 +86,9 @@
 %\photo[64pt]{picture}
 
 
-%----------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------
 % Custom commands.
-%----------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------
 % command and color used in this document, independently from moderncv
 \definecolor{see}{rgb}{0.5,0.5,0.5}% for web links
 \newcommand{\see}[1]{\hfill{\itshape\color{see}\footnotesize{}see #1}}
@@ -97,11 +97,11 @@
 \newcommand{\br}{\ifinner, \else\\\fi}
 
 % Link to github projects
-\newcommand{\github}[1]{\href{https://github.com/scalability-llnl/#1}{#1}}
+\newcommand{\github}[1]{\href{https://github.com/LLNL/#1}{#1}}
 
-%----------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------
 % Bibliography Customizations.
-%----------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------
 % Put labels next to best posters, based on bibliography order.
 % NOTE: this is a little nasty; numbers need to be updated every time the pubs change.
 \makeatletter
@@ -139,6 +139,8 @@
   {\bibsectiontitleformat{Ph.D. Dissertation}}
 \newcommand{\posterSecTitle}
   {\bibsectiontitleformat{Posters \& Presentations}}
+\newcommand{\tutorialSecTitle}
+  {\bibsectiontitleformat{Tutorials}}
 
-\newcites{Paper,Workshop,Book,PhD,Poster}{
-	\paperSecTitle,\workshopSecTitle,\bookSecTitle,\phdSecTitle,\posterSecTitle}
+\newcites{Paper,Workshop,Book,PhD,Poster,Tutorial}{
+	\paperSecTitle,\workshopSecTitle,\bookSecTitle,\phdSecTitle,\posterSecTitle,\tutorialSecTitle}

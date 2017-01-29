@@ -18,6 +18,7 @@ id=1                            # Start the <ol> lists in the output at 1
 #
 function bibliography {
     # use bib2xhtml and grep the ul list items away
+    echo "Generating Bibliography for $1"
     bib2xhtml -c -r -s empty -n "$name" $1 | awk '/<ul/,/<\/ul/' | grep -v '<ul\|<\ul' > $tmpfile
 
     # Make an ordered list, then put the list items from bib2xhtml in it
