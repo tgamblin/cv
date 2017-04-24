@@ -4,7 +4,10 @@
 *.blg
 *.log
 *.out
+*.top
+*.tui
+*-mpgraph.mp
 *.synctex.gz
 todd-cv.pdf
+tutorial-cv.pdf
 grant-cv.pdf
-ldrd-cv.pdf

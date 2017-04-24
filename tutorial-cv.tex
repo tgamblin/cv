@@ -1,0 +1,56 @@
+%!TEX TS-program = rake
+\documentclass[10pt,letterpaper]{moderncv/moderncv}
+
+\input{preamble}
+\toggletrue{grant}
+
+%-----------------------------------------------------------------------------
+%            Top
+%-----------------------------------------------------------------------------
+\begin{document}
+\maketitle
+\vspace{-3em}    % Omit if quote is included
+
+%\input{Sections/research-interests}
+%\input{Sections/professional-preparation}
+\input{Sections/education}
+\input{Sections/short-experience}
+\input{Sections/awards}
+\input{Sections/teaching}
+\input{Sections/conferences-workshops}
+\input{Sections/synergistic-activities}
+%\input{Sections/professional-activities-long}
+%\input{Sections/software-short}
+\input{Sections/invited-talks}
+
+%-----------------------------------------------------------------------------
+%            Publications
+%-----------------------------------------------------------------------------
+\section{Selected Publications}
+	\let\oldsubsection\subsection
+	\renewcommand{\subsection}[1]{}
+
+\footnotesize{
+  \nocite{%
+    gamblin+:sc15,%
+    becker+:hust16,%
+    jain+:sc16,%
+    islam+:sc16,%
+    boehme+:sc16,%
+    laguna+:cacm14,%
+    isaacs+:tpds15,%
+    mitra+:pldi14,%
+    gimenez+:sc14}
+
+	\bibliographystyle{plain-url-inline-revchron}
+	\bibliography{Bibliographies/Papers,Bibliographies/Workshops}
+}
+	% Restore subsection command in case something happens after here.
+	\let\subsection\oldsubsection
+
+%\input{Sections/grants}
+%\input{Sections/time-allocations}
+
+%\input{Sections/collaborators}
+
+\end{document}
