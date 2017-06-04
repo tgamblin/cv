@@ -17,7 +17,7 @@ web_repo=/Users/gamblin2/Sites/tgamblin.github.io
 # Any PDF is a valid target, but this is the default one.
 all: todd-cv.pdf
 
-%.pdf: %.tex Sections/*.tex
+%.pdf: %.tex Sections/*.tex Bibliographies/*.bib
 	$(latex) $*
 	for qname in $(call multibib_names,$<); do \
 		if [ -z $${qname} ]; then \
