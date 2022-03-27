@@ -33,7 +33,7 @@ upload:
 	cp todd-cv.pdf $(web_repo)/cv/todd-cv.pdf
 	cd $(web_repo) && \
 		git add cv/todd-cv.pdf && \
-		git commit -m "CV udpate" && \
+		git commit -m "CV update" && \
 		git push -f
 
 clean:
