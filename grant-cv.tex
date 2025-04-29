@@ -15,12 +15,10 @@
 %\input{Sections/professional-preparation}
 \input{Sections/education}
 \input{Sections/short-experience}
-\input{Sections/awards}
-\input{Sections/teaching}
+\input{Sections/software-short}
+\input{Sections/awards-short}
 %\input{Sections/professional-activities-long}
 %\input{Sections/synergistic-activities}
-\input{Sections/conferences-workshops}
-\input{Sections/software-short}
 %\input{Sections/invited-talks}
 
 %----------------------------------------------------------------------------------
@@ -31,18 +29,43 @@
 	\renewcommand{\subsection}[1]{}
 
 \footnotesize{
-  %  \nocite{mckenna+:cluster16,jain+:sc16,islam+:sc16,boehme+:sc16,laguna+:cacm14,isaacs+:tpds15,gamblin+:sc15,bhatele+:ipdps15,mitra+:pldi14,gimenez+:sc14}
-  \nocite{gamblin+:sc15,becker+:sc15,jain+:sc16,islam+:sc16,boehme+:sc16,laguna+:cacm14,isaacs+:tpds15,bhatele+:ipdps15,mitra+:pldi14,gimenez+:sc14}
-
-	\bibliographystyle{plain-url-inline-revchron}
-	\bibliography{Bibliographies/Papers}
+  \nocite{
+    nichols+:sc24,%
+    menon+:msr-2024,%
+%    heroux+:ijhpca24,%
+%    willenbring+:cise24,%
+    pinckney+:icse23,%
+    gamblin+:sc22,%
+    zakaria+:sc22,%
+%    menon+:msr22,%
+%    gamblin:collegeville21,%
+    culpo+:canopie20-archspec,%
+    knight+:hust19,%
+%    isaacs+:tvcg19,%
+    melara+:cug17,%
+    becker+:hust16,%
+    gamblin+:sc15%
+%    bhatele+:sc19,%
+%    islam+:sc16,%
+%    boehme+:sc16,%
+%    laguna+:cacm14,%
+%    isaacs+:tpds15,%
+%    bhatele+:ipdps15,%
+%    mitra+:pldi14,%
+%    gimenez+:sc14%
+  }
+  \bibliographystyle{plain-url-inline-revchron}
+  \bibliography{Bibliographies/Papers,Bibliographies/Workshops}
 }
-	% Restore subsection command in case something happens after here.
-	\let\subsection\oldsubsection
+% Restore subsection command in case something happens after here.
+\let\subsection\oldsubsection
+
+\input{Sections/conferences-workshops}
+\input{Sections/teaching}
 
 %\input{Sections/grants}
 %\input{Sections/time-allocations}
 
-\input{Sections/collaborators}
+%\input{Sections/collaborators}
 
 \end{document}
